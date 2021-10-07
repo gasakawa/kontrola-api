@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 @injectable()
 export class HandleCompanyPlanUserService {
   constructor(
-    @inject('CompanyPlaUsersRepository')
+    @inject('CompanyPlanUsersRepository')
     private readonly companyPlaUsersRepository: ICompanyPlanUsersRepository,
     @inject('UserRepository')
     private readonly userRepository: IUserRepository,
