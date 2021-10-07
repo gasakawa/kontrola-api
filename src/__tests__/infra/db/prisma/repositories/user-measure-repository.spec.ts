@@ -49,8 +49,8 @@ describe('User Measure Repository', () => {
         user_measures: {
           createMany: {
             data: [
-              { measureId: 1, userMeasureControlId: 1, value: 10 },
-              { measureId: 2, userMeasureControlId: 1, value: 10 },
+              { measure_id: 1, value: 10 },
+              { measure_id: 2, value: 10 },
             ],
           },
         },
