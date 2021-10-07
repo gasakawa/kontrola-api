@@ -1,0 +1,223 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model access_control {
+  id             Int           @id(map: "access_control_pk") @default(autoincrement())
+  user_id        String?       @db.Uuid
+  headquarter_id Int?
+  created_at     DateTime      @default(now()) @db.Timestamptz(6)
+  company_id     String?       @db.Uuid
+  companies      companies?    @relation(fields: [company_id], references: [id], map: "access_control_company_fk")
+  headquarters   headquarters? @relation(fields: [headquarter_id], references: [id], map: "access_control_heaquarter_fk")
+  users          users?        @relation(fields: [user_id], references: [id], map: "access_control_user_fk")
+}
+
+model alerts_type {
+  id   Int     @id(map: "alerts_type_pk") @default(autoincrement())
+  name String? @db.VarChar(20)
+}
+
+model business_plan {
+  bp_id                Int                    @id(map: "business_plan_pk") @default(autoincrement())
+  bp_description       String                 @db.VarChar(100)
+  company_plan_control company_plan_control[]
+  business_plan_settings business_plan_settings[]
+}
+
+model business_plan_settings {
+  bp_limits_id        Int      @id(map: "business_plan_limits_pk") @default(autoincrement())
+  admin_limit         Int
+  users_limit         Int
+  headquarters_limit  Int
+  user_progress_track Boolean  @default(false)
+  schedule            Boolean?
+  access_control      Boolean?
+  send_notifications  Boolean?
+  send_alerts         Boolean?
+  sms_plan            Boolean? @default(false)
+  tech_support        Boolean? @default(true)
+  updates             Boolean?
+  permanence_clause   Int
+  devices_limit Int
+  business_plan_type_id Int?
+  business_plan         business_plan? @relation(fields: [business_plan_type_id], references: [bp_id], map: "business_plan_settings_bp_fk")
+
+}
+
+model companies {
+  id                            String                          @id(map: "companies_pk") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                          String                          @db.VarChar(150)
+  address                       String                          @db.VarChar(150)
+  phone_number                  String                          @db.VarChar(20)
+  access_control                access_control[]
+  company_plan_control          company_plan_control[]
+  company_plan_payments_control company_plan_payments_control[]
+  company_plans                 company_plans[]
+  headquarters                  headquarters[]
+  users                         users[]
+  sessions  sessions[]
+}
+
+model company_plan_control {
+  id                    Int            @id(map: "business_plan_control_pk") @default(autoincrement())
+  user_id               String?        @db.Uuid
+  company_id            String?        @db.Uuid
+  business_plan_type_id Int?
+  business_plan         business_plan? @relation(fields: [business_plan_type_id], references: [bp_id], map: "business_plan_control_bp_fk")
+  companies             companies?     @relation(fields: [company_id], references: [id], map: "business_plan_control_company_fk")
+  users                 users?         @relation(fields: [user_id], references: [id], onUpdate: SetDefault, map: "business_plan_control_user_fk")
+}
+
+model company_plan_payments_control {
+  id            Int          @id(map: "plan_payments_pk") @default(autoincrement())
+  user_id       String?      @db.Uuid
+  company_id    String?      @db.Uuid
+  payment_value Decimal      @db.Money
+  payment_date  DateTime     @default(now()) @db.Timestamptz(6)
+  way_to_pay_id Int?
+  company_plan_id Int?
+  companies     companies?   @relation(fields: [company_id], references: [id], map: "plan_payments_company_fk")
+  users         users?       @relation(fields: [user_id], references: [id], map: "plan_payments_user_fk")
+  ways_to_pay   ways_to_pay? @relation(fields: [way_to_pay_id], references: [id], map: "plan_payments_way_fk")
+  company_plans company_plans? @relation(fields: [company_plan_id], references: [id], map: "plan_payments_plan_fk")
+}
+
+model company_plans {
+  id            Int          @id(map: "company_plans_pk") @default(autoincrement())
+  name          String       @db.VarChar(100)
+  price         Decimal      @db.Money
+  company_id    String?      @db.Uuid
+  way_to_pay_id Int?
+  charge_period Int?
+  companies     companies?   @relation(fields: [company_id], references: [id], map: "company_plans_company_fk")
+  ways_to_pay   ways_to_pay? @relation(fields: [way_to_pay_id], references: [id], map: "company_plans_pay__fk")
+  company_plan_payments_control company_plan_payments_control[]
+  company_plan_users company_plan_users[]
+}
+
+model document_types {
+  id    Int     @id(map: "document_types_pk") @default(autoincrement())
+  name  String  @db.VarChar(50)
+  users users[]
+}
+
+model headquarters {
+  id             Int              @id(map: "headquarters_pk") @default(autoincrement())
+  name           String           @db.VarChar(150)
+  company_id     String?          @db.Uuid
+  address        String           @db.VarChar(150)
+  phone_number   String           @db.VarChar(20)
+  companies      companies?       @relation(fields: [company_id], references: [id], map: "headquarters_company_fk")
+  access_control access_control[]
+  users users[]
+}
+
+model measures_type {
+  id            Int             @id(map: "measures_type_pk") @default(autoincrement())
+  name          String          @db.VarChar(20)
+  user_measures user_measure[]
+}
+
+model migrations {
+  id        Int    @id(map: "PK_8c82d7f526340ab734260ea46be") @default(autoincrement())
+  timestamp BigInt
+  name      String @db.VarChar
+}
+
+model roles {
+  id         Int      @id(map: "PK_09f4c8130b54f35925588a37b6a") @default(autoincrement())
+  name       String   @db.VarChar(20)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  users      users[]
+}
+
+model sessions {
+  id         String   @id(map: "sessions_session_idx") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id    String   @db.Uuid
+  flg_active Boolean  @default(true)
+  ip_address String?   @db.VarChar(20)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  token      String?
+  company_id String @db.Uuid
+  users      users    @relation(fields: [user_id], references: [id], onDelete: SetNull, map: "sessions_user_fk")
+  companies companies @relation(fields: [company_id], references: [id], onDelete: SetNull, map: "sessions_company_fk")
+}
+
+model user_measure {
+  id            Int            @id(map: "user_measures_pk") @default(autoincrement())
+  measure_id    Int?
+  value         Decimal        @db.Decimal
+  created_at    DateTime       @default(now()) @db.Timestamptz(6)
+  user_measure_control_id Int?
+  measures_type measures_type? @relation(fields: [measure_id], references: [id], map: "user_measure_measure_fk")
+  user_measure_control user_measure_control? @relation(fields: [user_measure_control_id], references: [id], map: "user_measure_control_fk")
+
+}
+
+model users {
+  id                            String                          @id(map: "users_id_uindex") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  given_name                    String                          @db.VarChar(100)
+  family_name                   String                          @db.VarChar(100)
+  address                       String                          @db.VarChar(255)
+  phone_number                  String                          @db.VarChar(20)
+  email                         String                          @unique(map: "users_email_uindex") @db.VarChar(100)
+  document_id                   String                          @db.VarChar(30)
+  document_type                 Int?
+  sub                           String?                         @unique(map: "users_sub_uindex") @db.Uuid
+  flg_active                    Boolean                         @default(false)
+  flg_confirmed                 Boolean                         @default(false)
+  birthdate                     DateTime                        @db.Date
+  gender                        String                          @db.Char(1)
+  role_id                       Int?
+  created_at                    DateTime                        @default(now()) @db.Timestamp(6)
+  updated_at                    DateTime                        @default(now()) @db.Timestamp(6)
+  company_id                    String?                         @db.Uuid
+  heaquarter_id Int?
+  code Int? @default(autoincrement())
+  companies                     companies?                      @relation(fields: [company_id], references: [id], map: "users_company_fk")
+  document_types                document_types?                 @relation(fields: [document_type], references: [id], map: "users_document_type_fk")
+  roles                         roles?                          @relation(fields: [role_id], references: [id], map: "user_role_fk")
+  headquarters  headquarters? @relation(fields: [heaquarter_id], references: [id], map:"users_headquarter_fk")
+  access_control                access_control[]
+  company_plan_control          company_plan_control[]
+  company_plan_payments_control company_plan_payments_control[]
+  sessions                      sessions[]
+  user_measure_control                user_measure_control[]
+  company_plan_users company_plan_users[]
+
+}
+
+model ways_to_pay {
+  id                            Int                             @id(map: "ways_to_pay_pk") @default(autoincrement())
+  name                          String                          @db.VarChar(50)
+  company_plan_payments_control company_plan_payments_control[]
+  company_plans                 company_plans[]
+}
+
+
+model user_measure_control {
+    id Int @id(map: "user_measures_control_pk") @default(autoincrement())
+    user_id String? @db.Uuid
+    observation String?
+    createdAt DateTime       @default(now()) @db.Timestamptz(6)
+    users         users?         @relation(fields: [user_id], references: [id], map: "user_measure_control_user_fk")
+    user_measures user_measure[]
+}
+
+model company_plan_users {
+    id Int @id(map: "company_user_plan_pk") @default(autoincrement())
+    user_id String? @db.Uuid
+    company_plan_id Int
+    flg_active Boolean @default(false)
+    users users? @relation(fields: [user_id], references: [id], map: "company_user_plan_usr_fk")
+    company_plans company_plans? @relation(fields: [company_plan_id], references: [id], map: "company_user_plan_cp_fk")
+
+}
