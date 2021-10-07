@@ -8,7 +8,7 @@ import {
   makeResetPasswordController,
   makeSinginController,
   makeUserAuthController,
-} from 'main/factories/create-user-controller';
+} from 'main/factories/user-controller';
 import { authorize } from 'main/middlewares';
 
 export default (router: Router): void => {
