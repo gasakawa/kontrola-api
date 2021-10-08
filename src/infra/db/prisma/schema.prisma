@@ -132,11 +132,12 @@ model migrations {
 }
 
 model roles {
-  id         Int      @id(map: "PK_09f4c8130b54f35925588a37b6a") @default(autoincrement())
-  name       String   @db.VarChar(20)
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  updated_at DateTime @default(now()) @db.Timestamp(6)
+  id         Int           @id(map: "PK_09f4c8130b54f35925588a37b6a") @default(autoincrement())
+  name       String        @db.VarChar(20)
+  created_at DateTime      @default(now()) @db.Timestamp(6)
+  updated_at DateTime      @default(now()) @db.Timestamp(6)
   users      users[]
+  permission permissions[]
 }
 
 model sessions {
@@ -241,4 +242,17 @@ model routine {
   icon            String        @db.VarChar(30)
   flg_public      Boolean       @default(false)
   routine_type    routine_type? @relation(fields: [routine_type_id], references: [id], map: "routine_type_fk")
+  permission      permissions[]
+}
+
+model permissions {
+  id         Int      @id(map: "premissions_pk") @default(autoincrement())
+  role_id    Int?
+  routine_id Int?
+  flg_read   Boolean  @default(false)
+  flg_edit   Boolean  @default(false)
+  flg_insert Boolean  @default(false)
+  flg_delete Boolean  @default(false)
+  role       roles?   @relation(fields: [role_id], references: [id], map: "permissions_role_fk")
+  routine    routine? @relation(fields: [routine_id], references: [id], map: "permissions_routine_fk")
 }
