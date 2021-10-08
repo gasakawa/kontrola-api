@@ -36,6 +36,7 @@ export const buildFakeDbUser = (): users => ({
   birthdate: new Date(),
   company_id: 'company_id',
   code: 1,
+  profile_pic_url: 'url',
   updated_at: new Date(),
   created_at: new Date(),
 });

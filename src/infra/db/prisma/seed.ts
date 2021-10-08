@@ -46,6 +46,15 @@ const main = async () => {
       { name: 'Tarjeta crédito' },
     ],
   });
+
+  await prisma.routine_type.createMany({
+    data: [
+      { name: 'Mis Datos', position: 1, icon: 'icon' },
+      { name: 'Configuraciones', position: 2, icon: 'icon' },
+      { name: 'Herramientas', position: 3, icon: 'icon' },
+      { name: 'Reportes', position: 4, icon: 'icon' },
+    ],
+  });
 };
 
 main()
