@@ -15,5 +15,7 @@ export interface SigninResponseDTO {
     company: string;
     profile: number;
     sessionId: string;
+    active: boolean;
+    confirmed: boolean;
   };
 }

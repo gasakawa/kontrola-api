@@ -45,6 +45,8 @@ export class AuthenticateUserService {
         company: user.company,
         profile: user.role,
         sessionId,
+        active: user.flgActive,
+        confirmed: user.flgConfirmed,
       },
     };
   }

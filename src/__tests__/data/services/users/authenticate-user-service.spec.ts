@@ -39,6 +39,8 @@ describe('Authenticate User Service', () => {
         company: 'company',
         profile: 1,
         sessionId: 'session',
+        active: true,
+        confirmed: true,
       },
     });
   });
