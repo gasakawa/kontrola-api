@@ -4,6 +4,7 @@ import {
   ConfirmUserService,
   CreateUserService,
   HandleUserPasswordService,
+  ResendUserConfirmationCodeService,
 } from 'data/services/users';
 import { Controller } from 'presentation/protocols';
 import {
@@ -17,6 +18,7 @@ import {
 
 import { container } from 'tsyringe';
 import { ActivateUserController } from 'presentation/controllers/users/activate-user.controller';
+import { ResendUserConfirmationCodeController } from 'presentation/controllers/users/resend-user-confirmation-code.controller';
 
 const handleUserPasswordService = container.resolve(HandleUserPasswordService);
 
@@ -50,4 +52,9 @@ export const makeChangePasswordController = (): Controller => {
 export const makeActivateUserController = (): Controller => {
   const activateUserService = container.resolve(ActivateUserService);
   return new ActivateUserController(activateUserService);
+};
+
+export const makeResendUserConfirmationCodeController = (): Controller => {
+  const resendUserConfirmationCodeService = container.resolve(ResendUserConfirmationCodeService);
+  return new ResendUserConfirmationCodeController(resendUserConfirmationCodeService);
 };

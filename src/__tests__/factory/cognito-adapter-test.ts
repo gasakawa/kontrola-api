@@ -3,6 +3,8 @@ import { Authenticator } from 'data/protocols/security';
 import { UserModel } from 'domain/models/users';
 
 export class CognitoAdapterStub implements Authenticator {
+  async resendConfirmationCode(_username: string): Promise<void> {}
+
   async confirmSignup(_usenaname: string, _code: string): Promise<void> {}
 
   async signup(_data: UserModel): Promise<SignupResponseDTO> {

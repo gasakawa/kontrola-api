@@ -5,6 +5,7 @@ import {
   makeChangePasswordController,
   makeConfirmSignupController,
   makeForgotPasswordController,
+  makeResendUserConfirmationCodeController,
   makeResetPasswordController,
   makeSinginController,
   makeUserAuthController,
@@ -19,4 +20,5 @@ export default (router: Router): void => {
   router.post('/user/forgot_password', adaptRoute(makeForgotPasswordController()));
   router.post('/user/reset_password', adaptRoute(makeResetPasswordController()));
   router.post('/user/change_password', authorize, adaptRoute(makeChangePasswordController()));
+  router.post('/user/resend_code', adaptRoute(makeResendUserConfirmationCodeController()));
 };

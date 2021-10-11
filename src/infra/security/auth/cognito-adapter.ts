@@ -117,6 +117,16 @@ export class CognitoAdapter implements Authenticator {
     await cognitoIdentityServiceProvider.changePassword(params).promise();
   }
 
+  async resendConfirmationCode(username: string): Promise<void> {
+    const params = {
+      ClientId: clientId,
+      Username: username,
+      SecretHash: this.hashSecret(username),
+    };
+
+    await cognitoIdentityServiceProvider.resendConfirmationCode(params).promise();
+  }
+
   hashSecret = (username: string): string => {
     return crypto
       .createHmac('SHA256', clientSecret)
