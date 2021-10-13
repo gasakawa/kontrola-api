@@ -3,6 +3,7 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { SigninResponseDTO, SignupResponseDTO } from 'data/dtos/auth-dto';
 import { Authenticator } from 'data/protocols/security';
 import { UserModel } from 'domain/models';
+import { CustomError } from 'domain/errors';
 
 const clientSecret = process.env.AWS_COGNITO_CLIENT_SECRET || 'NOT_CONFIGURED';
 const clientId = process.env.AWS_COGNITO_CLIENT_ID || 'NOT_CONFIGURED';
@@ -43,7 +44,13 @@ export class CognitoAdapter implements Authenticator {
       SecretHash: this.hashSecret(username),
     };
 
-    await cognitoIdentityServiceProvider.confirmSignUp(params).promise();
+    try {
+      await cognitoIdentityServiceProvider.confirmSignUp(params).promise();
+    } catch (e: any) {
+      if (e.name === 'ExpiredCodeException') {
+        throw new CustomError(e.message, e.statusCode, 'ExpiredCodeException', 'ExpiredCodeException');
+      }
+    }
   }
 
   async signup(data: UserModel): Promise<SignupResponseDTO> {

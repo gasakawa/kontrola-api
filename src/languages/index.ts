@@ -20,6 +20,7 @@ export const MESSAGES = {
       TokenMissing: 'Credenciales incorrectas',
       SessionIdInvalid: 'Session incorrecta',
       UserSubInvalid: 'User sub incorrecto',
+      ExpiredCodeException: 'Código vencido, solicite uno nuevo',
     },
   },
 } as Message;
