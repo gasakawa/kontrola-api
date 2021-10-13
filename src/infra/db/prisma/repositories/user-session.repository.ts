@@ -21,7 +21,7 @@ export class UserSessionRepository implements ISessionRepository {
       return id;
     } catch (e: any) {
       if (e.code === 'P2011') {
-        throw new CustomError('Sessions exceed limit', 500, 'SessionError', 'DatabaseError');
+        throw new CustomError('Sessions exceed limit', 500, 'SessionLimitExceedError', 'DatabaseError');
       }
       throw new CustomError('An error occurred while creating session', 500, 'SessionError', 'DatabaseError');
     }
