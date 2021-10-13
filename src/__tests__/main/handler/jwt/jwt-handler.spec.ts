@@ -12,7 +12,7 @@ describe('JWT Handler', () => {
         name: 'TokenError',
         message: 'Token JWT incorrect format',
         statusCode: 401,
-        internalCode: 'JWTIncorrect',
+        code: 'JWTIncorrect',
       });
     }
   });

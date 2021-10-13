@@ -4,17 +4,17 @@ import { HttpResponse } from 'presentation/protocols/http';
 
 export const badRequest = (error: CustomError): HttpResponse => ({
   statusCode: 400,
-  body: adaptError(error, 400, error.name, error.internalCode),
+  body: adaptError(error, 400, error.name, error.code),
 });
 
 export const notFound = (error: CustomError): HttpResponse => ({
   statusCode: 404,
-  body: adaptError(error, 404, error.name, error.internalCode),
+  body: adaptError(error, 404, error.name, error.code),
 });
 
 export const serverError = (error: CustomError): HttpResponse => ({
   statusCode: 500,
-  body: adaptError(error, 500, error.name, error.internalCode),
+  body: adaptError(error, 500, error.name, error.code),
 });
 
 export const ok = (data: any): HttpResponse => ({

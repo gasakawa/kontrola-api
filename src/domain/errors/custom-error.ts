@@ -4,11 +4,11 @@ import global from 'main/config/global';
 export class CustomError extends Error {
   statusCode: number;
 
-  internalCode: string;
+  code: string;
 
   message: string;
 
-  constructor(message: string, statusCode = 400, internalCode: string, name = 'Custom Error') {
+  constructor(message: string, statusCode = 400, code: string, name = 'Custom Error') {
     super();
 
     const { lang } = global;
@@ -17,7 +17,7 @@ export class CustomError extends Error {
     if (MESSAGES.errors[lang] === undefined) {
       messageTranslated = message;
     } else if (lang !== 'en') {
-      messageTranslated = MESSAGES.errors[lang][internalCode];
+      messageTranslated = MESSAGES.errors[lang][code];
     } else {
       messageTranslated = message;
     }
@@ -25,6 +25,6 @@ export class CustomError extends Error {
     this.name = name;
     this.message = messageTranslated;
     this.statusCode = statusCode;
-    this.internalCode = internalCode;
+    this.code = code;
   }
 }

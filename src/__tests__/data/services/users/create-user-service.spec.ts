@@ -61,7 +61,7 @@ describe('Create User Service', () => {
       expect(error).toMatchObject({
         message: 'Error while signup user',
         statusCode: 500,
-        internalCode: 'SingupUserInternalError',
+        code: 'SingupUserInternalError',
       });
     }
   });

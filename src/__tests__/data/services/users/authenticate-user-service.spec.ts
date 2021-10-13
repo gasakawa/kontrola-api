@@ -55,7 +55,7 @@ describe('Authenticate User Service', () => {
       expect(e).toMatchObject({
         message: 'User not found',
         statusCode: 404,
-        internalCode: 'UserNotFound',
+        code: 'UserNotFound',
       });
     }
   });
@@ -83,7 +83,7 @@ describe('Authenticate User Service', () => {
       expect(e).toMatchObject({
         message: 'User inactive',
         statusCode: 400,
-        internalCode: 'UserInactive',
+        code: 'UserInactive',
       });
     }
   });
@@ -111,7 +111,7 @@ describe('Authenticate User Service', () => {
       expect(e).toMatchObject({
         message: 'User not confirmed',
         statusCode: 400,
-        internalCode: 'UserNotConfirmed',
+        code: 'UserNotConfirmed',
       });
     }
   });

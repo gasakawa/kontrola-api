@@ -1,7 +1,7 @@
 export type HttpResponse = {
   statusCode: number;
   body: any;
-  internalCode?: string;
+  code?: string;
   headers?: any;
 };
 
