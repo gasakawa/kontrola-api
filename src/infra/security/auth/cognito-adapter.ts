@@ -144,6 +144,13 @@ export class CognitoAdapter implements Authenticator {
     };
 
     await cognitoIdentityServiceProvider.adminSetUserPassword(params).promise();
+    await cognitoIdentityServiceProvider
+      .adminUpdateUserAttributes({
+        UserAttributes: [{ Name: 'email_verified', Value: 'true' }],
+        Username: username,
+        UserPoolId: userPoolId,
+      })
+      .promise();
   }
 
   hashSecret = (username: string): string => {
