@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { adaptRoute } from 'main/adapters/express-router';
 import {
   makeActivateUserController,
+  makeChangeInitialPasswordController,
   makeChangePasswordController,
   makeConfirmSignupController,
   makeForgotPasswordController,
@@ -21,4 +22,5 @@ export default (router: Router): void => {
   router.post('/user/reset_password', adaptRoute(makeResetPasswordController()));
   router.post('/user/change_password', authorize, adaptRoute(makeChangePasswordController()));
   router.post('/user/resend_code', adaptRoute(makeResendUserConfirmationCodeController()));
+  router.post('/user/change_initial_password', adaptRoute(makeChangeInitialPasswordController()));
 };

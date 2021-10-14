@@ -13,7 +13,6 @@ export const buildFakeUser = (): UserModel => ({
   documentType: 2,
   address: 'address',
   gender: 'F',
-  password: 'password',
   phoneNumber: '123131313',
   headquarterId: 1,
 });

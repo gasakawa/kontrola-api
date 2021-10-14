@@ -9,4 +9,5 @@ export interface Authenticator {
   resetPassword: (username: string, password: string, code: string) => Promise<void>;
   changePassword: (token: string, oldPassword: string, newPassword: string) => Promise<void>;
   resendConfirmationCode: (username: string) => Promise<void>;
+  changeInitialPassword: (username: string, password: string) => Promise<void>;
 }

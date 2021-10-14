@@ -3,9 +3,11 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { SigninResponseDTO, SignupResponseDTO } from 'data/dtos/auth-dto';
 import { Authenticator } from 'data/protocols/security';
 import { UserModel } from 'domain/models';
+import { CustomError } from 'domain/errors';
 
 const clientSecret = process.env.AWS_COGNITO_CLIENT_SECRET || 'NOT_CONFIGURED';
 const clientId = process.env.AWS_COGNITO_CLIENT_ID || 'NOT_CONFIGURED';
+const userPoolId = process.env.AWS_COGNITO_USER_POOL_ID || 'NOT_CONFIGURE';
 const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider({
   apiVersion: process.env.AWS_API_VERSION,
   region: process.env.AWS_REGION,
@@ -69,20 +71,26 @@ export class CognitoAdapter implements Authenticator {
         Value: `${data.roleId}`,
       },
     ];
-    const { UserSub, UserConfirmed } = await cognitoIdentityServiceProvider
-      .signUp({
-        ClientId: clientId,
-        Password: data.password,
-        Username: data.username,
-        SecretHash: this.hashSecret(data.username),
-        UserAttributes: userAttributes,
-      })
-      .promise();
 
-    return {
-      userSub: UserSub,
-      isConfirmed: UserConfirmed,
+    const params = {
+      Username: data.username,
+      UserPoolId: userPoolId,
+      DesiredDeliveryMediums: ['EMAIL'],
+      UserAttributes: userAttributes,
     };
+    const { User } = await cognitoIdentityServiceProvider.adminCreateUser(params).promise();
+
+    if (User) {
+      if (User.Attributes) {
+        const sub = User.Attributes.filter(attr => attr.Name === 'sub');
+
+        return {
+          userSub: sub[0].Value || '',
+          isConfirmed: User.Enabled || false,
+        };
+      }
+    }
+    throw new CustomError('Error while register user in provider', 500, 'AdminCreateUserError', 'AdminCreateUserError');
   }
 
   async forgotPassword(username: string): Promise<void> {
@@ -125,6 +133,17 @@ export class CognitoAdapter implements Authenticator {
     };
 
     await cognitoIdentityServiceProvider.resendConfirmationCode(params).promise();
+  }
+
+  async changeInitialPassword(username: string, password: string): Promise<void> {
+    const params = {
+      Username: username,
+      Password: password,
+      Permanent: true,
+      UserPoolId: userPoolId,
+    };
+
+    await cognitoIdentityServiceProvider.adminSetUserPassword(params).promise();
   }
 
   hashSecret = (username: string): string => {

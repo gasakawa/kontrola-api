@@ -46,4 +46,6 @@ export class CognitoAdapterStub implements Authenticator {
   async resetPassword(_username: string, _password: string, _code: string): Promise<void> {}
 
   async changePassword(_token: string, _oldPassword: string, _newPassword: string): Promise<void> {}
+
+  async changeInitialPassword(_username: string, _password: string): Promise<void> {}
 }

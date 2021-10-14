@@ -1,6 +1,7 @@
 import {
   ActivateUserService,
   AuthenticateUserService,
+  ChangeInitialPasswordService,
   ConfirmUserService,
   CreateUserService,
   HandleUserPasswordService,
@@ -8,6 +9,7 @@ import {
 } from 'data/services/users';
 import { Controller } from 'presentation/protocols';
 import {
+  ChangeInitialPasswordController,
   ChangePasswordController,
   ConfirmSignupController,
   ForgotPasswordController,
@@ -57,4 +59,9 @@ export const makeActivateUserController = (): Controller => {
 export const makeResendUserConfirmationCodeController = (): Controller => {
   const resendUserConfirmationCodeService = container.resolve(ResendUserConfirmationCodeService);
   return new ResendUserConfirmationCodeController(resendUserConfirmationCodeService);
+};
+
+export const makeChangeInitialPasswordController = (): Controller => {
+  const changeInitialPasswordService = container.resolve(ChangeInitialPasswordService);
+  return new ChangeInitialPasswordController(changeInitialPasswordService);
 };

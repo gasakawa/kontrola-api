@@ -9,7 +9,6 @@ export class SignupController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const {
       username,
-      password,
       phoneNumber,
       birthdate,
       gender,
@@ -27,7 +26,6 @@ export class SignupController implements Controller {
     try {
       const user = await this.createUserService.create({
         username,
-        password,
         phoneNumber,
         birthdate,
         gender,

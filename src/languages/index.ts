@@ -21,6 +21,11 @@ export const MESSAGES = {
       SessionIdInvalid: 'Session incorrecta',
       UserSubInvalid: 'User sub incorrecto',
       ExpiredCodeException: 'Código vencido, solicite uno nuevo',
+      NotAuthorizedException: 'Usuario y/o contraseña incorrectos',
+      CodeMismatchException: 'Código de verificación incorrecto, intente nuevamente',
+      AdminCreateUserError: 'Error al intentar crear el usuario',
+      UserAlreadyConfirmed: 'Usuario confirmado',
+      WrongTemporayPassword: 'Datos de acceso temporal incorrectos',
     },
   },
 } as Message;

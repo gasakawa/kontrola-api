@@ -89,7 +89,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async confirmUser(username: string): Promise<boolean> {
-    const { flg_confirmed: active } = await prisma.users.update({
+    const { flg_confirmed: confirmed } = await prisma.users.update({
       data: {
         flg_confirmed: true,
       },
@@ -100,7 +100,7 @@ export class UserRepository implements IUserRepository {
         flg_confirmed: true,
       },
     });
-    return active;
+    return confirmed;
   }
 
   async authenticate(username: string): Promise<UserSigin | null> {
