@@ -7,7 +7,7 @@ export class UserRepositoryStub implements IUserRepository {
     return new Promise(resolve => resolve(true));
   }
 
-  async findByEmail(_email: string): Promise<UserDTO> {
+  async findByEmail(_email: string): Promise<UserDTO | null> {
     const fakeUser = {
       name: 'User',
       address: 'address',

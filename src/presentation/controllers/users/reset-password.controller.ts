@@ -1,5 +1,5 @@
 import { HandleUserPasswordService } from 'data/services/users';
-import { badRequest, ok, serverError } from 'presentation/helpers/http/http-helper';
+import { badRequest, notFound, ok, serverError } from 'presentation/helpers/http/http-helper';
 import { Controller, HttpRequest, HttpResponse } from 'presentation/protocols';
 
 export class ResetPasswordController implements Controller {
@@ -18,6 +18,10 @@ export class ResetPasswordController implements Controller {
     } catch (error: any) {
       if (error.statusCode === 400) {
         return badRequest(error);
+      }
+
+      if (error.statusCode === 404) {
+        return notFound(error);
       }
 
       return serverError(error);

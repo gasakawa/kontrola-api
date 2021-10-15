@@ -1,23 +1,16 @@
 import { HandleUserPasswordService } from 'data/services/users';
-import { CognitoAdapterStub } from '__tests__/factory';
+import { CognitoAdapterStub, UserRepositoryStub } from '__tests__/factory';
 import { throwError } from '__tests__/factory/error-test';
 
-interface SutTypes {
-  sut: HandleUserPasswordService;
-  authenticatorAdapterStub: CognitoAdapterStub;
-}
-
-const makeAuthenticatorAdapter = (): CognitoAdapterStub => {
-  return new CognitoAdapterStub();
-};
-
-const makeSut = (): SutTypes => {
-  const authenticatorAdapterStub = makeAuthenticatorAdapter();
-  const sut = new HandleUserPasswordService(authenticatorAdapterStub);
+const makeSut = () => {
+  const authenticatorAdapterStub = new CognitoAdapterStub();
+  const userRepositoryStub = new UserRepositoryStub();
+  const sut = new HandleUserPasswordService(authenticatorAdapterStub, userRepositoryStub);
 
   return {
     sut,
     authenticatorAdapterStub,
+    userRepositoryStub,
   };
 };
 
@@ -59,5 +52,23 @@ describe('Handle User Password Service', () => {
     jest.spyOn(authenticatorAdapterStub, 'changePassword').mockImplementationOnce(throwError);
     const promise = sut.changePassword('token', 'old_password', 'new_password');
     await expect(promise).rejects.toThrow();
+  });
+
+  it('should throws if try to get a new code to reset password for an unregistered email', async () => {
+    const { sut, userRepositoryStub } = makeSut();
+    jest.spyOn(userRepositoryStub, 'findByEmail').mockResolvedValueOnce(null);
+
+    const promise = sut.forgotPassword('use@email.com');
+
+    expect(promise).rejects.toThrowError('E-mail not found');
+  });
+
+  it('should throws if try to reset password for an unregistered email', async () => {
+    const { sut, userRepositoryStub } = makeSut();
+    jest.spyOn(userRepositoryStub, 'findByEmail').mockResolvedValueOnce(null);
+
+    const promise = sut.resetPassword('use@email.com', 'password', 'code');
+
+    expect(promise).rejects.toThrowError('E-mail not found');
   });
 });
