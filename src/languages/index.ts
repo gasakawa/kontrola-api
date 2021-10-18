@@ -1,5 +1,5 @@
 type Message = {
-  errors: {
+  [key: string]: {
     [key: string]: any;
   };
 };
@@ -27,6 +27,11 @@ export const MESSAGES = {
       UserAlreadyConfirmed: 'Este usuario ya fué confirmado',
       WrongTemporayPassword: 'Datos de acceso temporal incorrectos',
       EmailNotFound: 'E-mail no registrado',
+    },
+  },
+  success: {
+    es: {
+      PasswordResetCode: 'Código enviado',
     },
   },
 } as Message;
