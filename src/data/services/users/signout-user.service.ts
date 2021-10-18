@@ -9,8 +9,6 @@ export class SignoutUserService {
   ) {}
 
   public async signout(sessionId: string): Promise<boolean> {
-    console.log('🚀 ~ file: signout-user.service.ts ~ line 12 ~ SignoutUserService ~ signout ~ sessionId', sessionId);
-
     await this.userSessionRepository.invalidate(sessionId);
     return true;
   }

@@ -144,11 +144,11 @@ model sessions {
   id         String    @id(map: "sessions_session_idx") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   user_id    String    @db.Uuid
   flg_active Boolean   @default(true)
-  ip_address String?   @db.VarChar(20)
   created_at DateTime  @default(now()) @db.Timestamp(6)
   updated_at DateTime  @default(now()) @db.Timestamp(6)
   token      String?
   company_id String    @db.Uuid
+  session_info Json?
   users      users     @relation(fields: [user_id], references: [id], onDelete: SetNull, map: "sessions_user_fk")
   companies  companies @relation(fields: [company_id], references: [id], onDelete: SetNull, map: "sessions_company_fk")
 }
