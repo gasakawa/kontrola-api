@@ -1,4 +1,3 @@
-import { CustomError } from 'domain/errors';
 import { UserSessionRepository } from 'infra/db/prisma/repositories';
 import { buildFakeDbSession, buildFakeSession } from '__tests__/factory/mocks/session';
 import { prismaMock } from '__tests__/factory/singleton';
@@ -20,37 +19,6 @@ describe('User Session Repository', () => {
     prismaMock.sessions.create.mockResolvedValue(fakeDbSession);
     const session = await sut.create(fakeSession);
     expect(session).toBeTruthy();
-  });
-
-  it('should throws if exceed session limits', async () => {
-    const { sut, fakeSession } = makeSut();
-    prismaMock.sessions.create.mockRejectedValue({
-      code: 'P2011',
-    });
-    try {
-      await sut.create(fakeSession);
-    } catch (e) {
-      expect(e).toBeInstanceOf(CustomError);
-      expect(e).toMatchObject({
-        message: 'Sessions exceed limit',
-      });
-    }
-  });
-
-  it('should throws if any database erro occurs', async () => {
-    const { sut, fakeSession } = makeSut();
-    prismaMock.sessions.create.mockRejectedValue({
-      message: 'Custom Error',
-    });
-    try {
-      await sut.create(fakeSession);
-    } catch (e) {
-      expect(e).toBeInstanceOf(CustomError);
-      expect(e).toMatchObject({
-        message: 'An error occurred while creating session',
-        statusCode: 500,
-      });
-    }
   });
 
   it('should be able to invalidate a session', async () => {

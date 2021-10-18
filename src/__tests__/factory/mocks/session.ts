@@ -6,6 +6,7 @@ export const buildFakeSession = (): SessionModel => ({
   flgActive: true,
   token: 'token',
   company_id: 'company_id',
+  sessionInfo: { city: 'city', country: 'country', ip: 'ip', hostname: 'hostname', latitude: 1, longitude: 1 },
 });
 
 export const buildFakeDbSession = (): sessions => ({
@@ -15,6 +16,6 @@ export const buildFakeDbSession = (): sessions => ({
   created_at: new Date(),
   updated_at: new Date(),
   id: 'id',
-  ip_address: 'ip_address',
   flg_active: true,
+  session_info: { city: 'city', country: 'country', ip: 'ip', hostname: 'hostname', latitude: 1, longitude: 1 },
 });

@@ -6,10 +6,10 @@ export class SigninController implements Controller {
   constructor(private readonly authenticateUserService: AuthenticateUserService) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { username, password } = httpRequest.body;
+    const { username, password, sessionInfo } = httpRequest.body;
 
     try {
-      const user = await this.authenticateUserService.authenticate(username, password);
+      const user = await this.authenticateUserService.authenticate(username, password, sessionInfo);
       return ok(user);
     } catch (error: any) {
       if (error.statusCode === 400) {

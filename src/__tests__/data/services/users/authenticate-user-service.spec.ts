@@ -1,18 +1,13 @@
 import { AuthenticateUserService } from 'data/services/users/authenticate-users.service';
 import { CustomError } from 'domain/errors';
 import { CognitoAdapterStub, UserRepositoryStub, UserSessionRepositoryStub } from '__tests__/factory';
+import { buildFakeSession } from '__tests__/factory/mocks/session';
 
-interface SutTypes {
-  sut: AuthenticateUserService;
-  authRepositoryStub: UserRepositoryStub;
-  authenticatorAdapterStub: CognitoAdapterStub;
-  userSessionRepository: UserSessionRepositoryStub;
-}
-
-const makeSut = (): SutTypes => {
+const makeSut = () => {
   const authRepositoryStub = new UserRepositoryStub();
   const authenticatorAdapterStub = new CognitoAdapterStub();
   const userSessionRepository = new UserSessionRepositoryStub();
+  const { sessionInfo } = buildFakeSession();
   const sut = new AuthenticateUserService(authRepositoryStub, authenticatorAdapterStub, userSessionRepository);
 
   return {
@@ -20,14 +15,15 @@ const makeSut = (): SutTypes => {
     authRepositoryStub,
     sut,
     userSessionRepository,
+    fakeSessionInfo: sessionInfo,
   };
 };
 
 describe('Authenticate User Service', () => {
   it('should be able to authenticate an user', async () => {
-    const { sut } = makeSut();
+    const { sut, fakeSessionInfo } = makeSut();
 
-    const signinUser = await sut.authenticate('user@email.com', 'password');
+    const signinUser = await sut.authenticate('user@email.com', 'password', fakeSessionInfo);
     expect(signinUser).toMatchObject({
       accessToken: 'access_token',
       refreshToken: 'refresh_token',
@@ -46,10 +42,10 @@ describe('Authenticate User Service', () => {
   });
 
   it('should throw and error when user not found', async () => {
-    const { sut, authRepositoryStub } = makeSut();
+    const { sut, authRepositoryStub, fakeSessionInfo } = makeSut();
     jest.spyOn(authRepositoryStub, 'authenticate').mockReturnValueOnce(new Promise(resolve => resolve(null)));
     try {
-      await sut.authenticate('user@email.com', 'password');
+      await sut.authenticate('user@email.com', 'password', fakeSessionInfo);
     } catch (e) {
       expect(e).toBeInstanceOf(CustomError);
       expect(e).toMatchObject({
@@ -61,7 +57,7 @@ describe('Authenticate User Service', () => {
   });
 
   it('should throw and error when user are inactived', async () => {
-    const { sut, authRepositoryStub } = makeSut();
+    const { sut, authRepositoryStub, fakeSessionInfo } = makeSut();
     jest.spyOn(authRepositoryStub, 'authenticate').mockReturnValueOnce(
       new Promise(resolve =>
         resolve({
@@ -77,7 +73,7 @@ describe('Authenticate User Service', () => {
       ),
     );
     try {
-      await sut.authenticate('user@email.com', 'password');
+      await sut.authenticate('user@email.com', 'password', fakeSessionInfo);
     } catch (e) {
       expect(e).toBeInstanceOf(CustomError);
       expect(e).toMatchObject({
@@ -89,7 +85,7 @@ describe('Authenticate User Service', () => {
   });
 
   it('should throw and error when user not confirmed itself', async () => {
-    const { sut, authRepositoryStub } = makeSut();
+    const { sut, authRepositoryStub, fakeSessionInfo } = makeSut();
     jest.spyOn(authRepositoryStub, 'authenticate').mockReturnValueOnce(
       new Promise(resolve =>
         resolve({
@@ -105,7 +101,7 @@ describe('Authenticate User Service', () => {
       ),
     );
     try {
-      await sut.authenticate('user@email.com', 'password');
+      await sut.authenticate('user@email.com', 'password', fakeSessionInfo);
     } catch (e) {
       expect(e).toBeInstanceOf(CustomError);
       expect(e).toMatchObject({
@@ -117,7 +113,7 @@ describe('Authenticate User Service', () => {
   });
 
   it('should block login if number of active sessions is greater than max active session limit', async () => {
-    const { sut, userSessionRepository } = makeSut();
+    const { sut, userSessionRepository, fakeSessionInfo } = makeSut();
     jest.spyOn(userSessionRepository, 'verifyLimit').mockResolvedValueOnce({
       allowLogin: false,
       email: 'user@email.com',
@@ -131,7 +127,7 @@ describe('Authenticate User Service', () => {
         },
       ],
     });
-    const response = await sut.authenticate('user@email.com', 'password');
+    const response = await sut.authenticate('user@email.com', 'password', fakeSessionInfo);
 
     expect(response).toBeTruthy();
     expect(response.accessToken).toBe('NOT_CONFIGURED');

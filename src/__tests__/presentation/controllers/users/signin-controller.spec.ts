@@ -2,10 +2,13 @@ import { AuthenticateUserService } from 'data/services/users';
 import { CustomError } from 'domain/errors';
 import { SigninController } from 'presentation/controllers/users';
 import { throwError } from '__tests__/factory/error-test';
+import { buildFakeSession } from '__tests__/factory/mocks/session';
 
 jest.mock('data/services/users');
 
 const AuthenticateUserServiceMock = AuthenticateUserService as jest.Mock<AuthenticateUserService>;
+
+const { sessionInfo } = buildFakeSession();
 
 const makeSut = () => {
   const authenticateUserServiceMock = new AuthenticateUserServiceMock() as jest.Mocked<AuthenticateUserService>;
@@ -22,6 +25,7 @@ const fakeRequest = {
   body: {
     username: 'user@email.com',
     password: 'password',
+    sessionInfo,
   },
 };
 

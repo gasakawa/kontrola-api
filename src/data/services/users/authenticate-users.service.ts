@@ -3,6 +3,7 @@ import { Authenticator } from 'data/protocols/security';
 import { ISessionRepository, IUserRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { injectable, inject } from 'tsyringe';
+import { SessionInfo } from 'domain/models';
 
 @injectable()
 export class AuthenticateUserService {
@@ -15,7 +16,7 @@ export class AuthenticateUserService {
     private userSessionRepository: ISessionRepository,
   ) {}
 
-  public async authenticate(username: string, password: string): Promise<SigninResponseDTO> {
+  public async authenticate(username: string, password: string, sessionData: SessionInfo): Promise<SigninResponseDTO> {
     const user = await this.userRepository.authenticate(username);
     if (user === null) {
       throw new CustomError('User not found', 404, 'UserNotFound', 'UserError');
@@ -41,10 +42,13 @@ export class AuthenticateUserService {
 
     const { accessToken, refreshToken, tokenType, expiresIn } = await this.cognitoAdapter.signin(username, password);
 
+    const { ip, country, city, longitude, latitude, hostname } = sessionData;
+
     const sessionId = await this.userSessionRepository.create({
       userId: user.id,
       token: accessToken,
       company_id: user.company,
+      sessionInfo: { ip, country, city, longitude, latitude, hostname },
     });
 
     return {
