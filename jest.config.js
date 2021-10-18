@@ -18,6 +18,7 @@ module.exports = {
     '!<rootDir>/src/domain/models/**',
     '!<rootDir>/src/**/*-protocols.ts',
     '!<rootDir>/src/presentation/errors/*.ts',
+    '!<rootDir>/src/presentation/helpers/translation/*.ts',
     '!**/factories/**',
     '!**/protocols/**',
     '!**/test/**',
