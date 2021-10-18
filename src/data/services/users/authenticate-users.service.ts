@@ -26,6 +26,19 @@ export class AuthenticateUserService {
     if (!user.flgActive) {
       throw new CustomError('User inactive', 400, 'UserInactive', 'UserError');
     }
+
+    const session = await this.userSessionRepository.verifyLimit(username);
+
+    if (!session.allowLogin) {
+      return {
+        accessToken: 'NOT_CONFIGURED',
+        refreshToken: 'NOT_CONFIGURED',
+        expiresIn: 0,
+        tokenType: 'NOT_CONFIGURED',
+        sessionLimits: session,
+      };
+    }
+
     const { accessToken, refreshToken, tokenType, expiresIn } = await this.cognitoAdapter.signin(username, password);
 
     const sessionId = await this.userSessionRepository.create({

@@ -1,9 +1,16 @@
+import { SessionLimitDTO } from 'data/dtos';
 import { ISessionRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { SessionModel } from 'domain/models';
 import prisma from 'infra/db/prisma/client/prisma-client';
 
 export class UserSessionRepository implements ISessionRepository {
+  async verifyLimit(username: string): Promise<SessionLimitDTO> {
+    const result = (await prisma.$queryRaw`select * from verify_user_session_limit(${username})`) as any;
+    const [{ verify_user_session_limit }] = result;
+    return verify_user_session_limit as SessionLimitDTO;
+  }
+
   async create(session: SessionModel): Promise<string> {
     try {
       const { id } = await prisma.sessions.create({

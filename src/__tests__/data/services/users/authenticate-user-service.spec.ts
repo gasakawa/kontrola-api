@@ -115,4 +115,26 @@ describe('Authenticate User Service', () => {
       });
     }
   });
+
+  it('should block login if number of active sessions is greater than max active session limit', async () => {
+    const { sut, userSessionRepository } = makeSut();
+    jest.spyOn(userSessionRepository, 'verifyLimit').mockResolvedValueOnce({
+      allowLogin: false,
+      email: 'user@email.com',
+      userSessionsNumber: 4,
+      devicesLimit: 4,
+      sessions: [
+        {
+          id: 'id',
+          createdAt: new Date(),
+          email: 'user@email.com',
+        },
+      ],
+    });
+    const response = await sut.authenticate('user@email.com', 'password');
+
+    expect(response).toBeTruthy();
+    expect(response.accessToken).toBe('NOT_CONFIGURED');
+    expect(response.sessionLimits?.allowLogin).toBe(false);
+  });
 });

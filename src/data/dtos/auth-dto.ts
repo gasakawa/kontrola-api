@@ -1,3 +1,5 @@
+import { SessionLimitDTO } from './session-dto';
+
 export interface SignupResponseDTO {
   isConfirmed: boolean;
   userSub: string;
@@ -18,4 +20,5 @@ export interface SigninResponseDTO {
     active: boolean;
     confirmed: boolean;
   };
+  sessionLimits?: SessionLimitDTO;
 }
