@@ -5,6 +5,7 @@ import { CognitoAdapter } from 'infra/security/auth/cognito-adapter';
 import {
   ICompanyPlanPaymentControlRepository,
   ICompanyPlanUsersRepository,
+  IModuleRepository,
   ISessionRepository,
   IUserMeasuersRepository,
   IUserRepository,
@@ -14,6 +15,7 @@ import {
   CompanyPlanPaymentControlRepository,
   CompanyPlanRepository,
   CompanyPlanUserRepository,
+  ModuleRepository,
   UserMeasureRepository,
   UserRepository,
   UserSessionRepository,
@@ -30,3 +32,4 @@ container.registerSingleton<ICompanyPlanPaymentControlRepository>(
 
 container.registerSingleton<IUserMeasuersRepository>('UserMeasureRepository', UserMeasureRepository);
 container.registerSingleton<ICompanyPlanUsersRepository>('CompanyPlanUsersRepository', CompanyPlanUserRepository);
+container.registerSingleton<IModuleRepository>('ModuleRepository', ModuleRepository);
