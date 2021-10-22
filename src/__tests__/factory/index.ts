@@ -4,3 +4,5 @@ export * from './i-access-control-protocol-test';
 export * from './user-repository-test';
 export * from './user-measure-repository-test';
 export * from './company-plan-user-repository-test';
+export * from './business-plan-settings-repository-stub';
+export * from './module-repository-stub';

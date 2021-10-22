@@ -19,7 +19,7 @@ export class BusinessPlanSettingsRepository implements IBusinessPlanSettingsRepo
         userProgressTrack: result?.user_progress_track,
         schedule: result.schedule || false,
         accessControl: result.access_control || false,
-        sendNotification: result?.send_notifications || false,
+        sendNotifications: result?.send_notifications || false,
         sendAlerts: result?.send_alerts || false,
         smsPlan: result?.sms_plan || false,
         businessPlanType: result?.business_plan_type_id || 0,

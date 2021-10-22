@@ -1,14 +1,14 @@
 export type BusinessPlanSettings = {
-  bpLimitsId: number;
+  bpLimitsId?: number;
   adminLimit: number;
   usersLimit: number;
   headquartersLimit: number;
   userProgressTrack: boolean;
   schedule: boolean;
   accessControl: boolean;
-  sendNotification: boolean;
+  sendNotifications: boolean;
   sendAlerts: boolean;
   smsPlan: boolean;
-  businessPlanType: number;
+  businessPlanType?: number;
   devicesLimit: number;
 };
