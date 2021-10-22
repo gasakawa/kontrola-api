@@ -1,17 +1,19 @@
 import { CustomError } from 'domain/errors';
 import { UserRepository } from 'infra/db/prisma/repositories';
 import { mockReset } from 'jest-mock-extended';
-import { buildFakeDbUser, buildFakeUser } from '__tests__/factory/mocks/users';
+import { buildFakeDbUser, buildFakeUpdateUser, buildFakeUser } from '__tests__/factory/mocks/users';
 import { prismaMock } from '__tests__/factory/singleton';
 
 const makeSut = () => {
   const sut = new UserRepository();
   const fakeUser = buildFakeUser();
   const fakeDbUser = buildFakeDbUser();
+  const fakeUpdateUser = buildFakeUpdateUser();
   return {
     sut,
     fakeUser,
     fakeDbUser,
+    fakeUpdateUser,
   };
 };
 
@@ -81,23 +83,34 @@ describe('User Repository', () => {
 
   it('should be able to activate an user', async () => {
     const { sut, fakeDbUser } = makeSut();
-    prismaMock.users.findUnique.mockResolvedValueOnce(fakeDbUser);
     prismaMock.users.update.mockResolvedValueOnce(fakeDbUser);
 
     const active = await sut.activate('user@email.com');
     expect(active).toBe(true);
   });
 
-  it('should throws when try activate an user and not found it', async () => {
-    const { sut, fakeDbUser } = makeSut();
-    Object.assign(fakeDbUser, {
-      flg_active: false,
-    });
+  it('should be able to update an user data', async () => {
+    const { sut, fakeDbUser, fakeUpdateUser } = makeSut();
     prismaMock.users.update.mockResolvedValueOnce(fakeDbUser);
-    try {
-      await sut.activate('user@email.com');
-    } catch (e) {
-      expect(e).toBeInstanceOf(CustomError);
-    }
+    const updated = await sut.update(fakeUpdateUser);
+    expect(updated).toBeTruthy();
+    expect(updated).toBe(true);
+  });
+
+  it('should be able to find an user by his id', async () => {
+    const { sut, fakeDbUser } = makeSut();
+    prismaMock.users.findUnique.mockResolvedValueOnce(fakeDbUser);
+    const user = await sut.findById('user_id');
+
+    expect(user).toBeTruthy();
+    expect(user?.email).toBe('user@email.com');
+  });
+
+  it('should be able to return null if an user not exists', async () => {
+    const { sut } = makeSut();
+    prismaMock.users.findUnique.mockResolvedValueOnce(null);
+    const user = await sut.findById('user_id');
+
+    expect(user).toBe(null);
   });
 });

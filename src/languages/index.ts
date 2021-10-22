@@ -32,6 +32,7 @@ export const MESSAGES = {
   success: {
     es: {
       PasswordResetCode: 'Código enviado',
+      UserUpdated: 'Usuario actualizado con éxito',
     },
   },
 } as Message;

@@ -1,10 +1,11 @@
-import { ActivateUserService } from 'data/services/users';
+import { UpdateUserService } from 'data/services/users';
 import { CustomError } from 'domain/errors';
 import { UserRepositoryStub } from '__tests__/factory';
+import { buildFakeUpdateUser } from '__tests__/factory/mocks/users';
 
 const makeSut = () => {
   const userRepository = new UserRepositoryStub();
-  const sut = new ActivateUserService(userRepository);
+  const sut = new UpdateUserService(userRepository);
 
   return {
     userRepository,
@@ -12,10 +13,12 @@ const makeSut = () => {
   };
 };
 
-describe('Activate User Service', () => {
-  it('should be able to activate an user', async () => {
+const fakeUpdateUser = buildFakeUpdateUser();
+
+describe('Update User Service', () => {
+  it('should be able to update an user data', async () => {
     const { sut } = makeSut();
-    const activate = await sut.activate('user_id');
+    const activate = await sut.update(fakeUpdateUser);
 
     expect(activate).toBe(true);
   });
@@ -24,7 +27,7 @@ describe('Activate User Service', () => {
     const { sut, userRepository } = makeSut();
     jest.spyOn(userRepository, 'findById').mockResolvedValueOnce(null);
     try {
-      await sut.activate('user_id');
+      await sut.update(fakeUpdateUser);
     } catch (e) {
       expect(e).toBeInstanceOf(CustomError);
       expect(e).toMatchObject({

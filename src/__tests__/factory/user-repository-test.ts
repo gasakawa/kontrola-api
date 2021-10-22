@@ -1,4 +1,4 @@
-import { UserAuthDTO, UserDTO } from 'data/dtos';
+import { UserAuthDTO, UserDTO, UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { UserModel, UserSigin } from 'domain/models';
 
@@ -48,5 +48,23 @@ export class UserRepositoryStub implements IUserRepository {
     };
 
     return new Promise(resolve => resolve(signinUser));
+  }
+
+  async update(_user: UserUpdateDTO): Promise<boolean> {
+    return new Promise(resolve => resolve(true));
+  }
+
+  async findById(_userId: string): Promise<UserDTO | null> {
+    const fakeUser = {
+      name: 'User',
+      address: 'address',
+      phoneNumber: 'phone_number',
+      email: 'user@email.com',
+      flgActive: true,
+      flgConfirmed: true,
+      gender: 'M',
+    };
+
+    return new Promise(resolve => resolve(fakeUser));
   }
 }

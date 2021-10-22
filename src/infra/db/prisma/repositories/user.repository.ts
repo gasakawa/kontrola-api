@@ -1,4 +1,4 @@
-import { UserAuthDTO, UserDTO } from 'data/dtos';
+import { UserAuthDTO, UserDTO, UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { UserModel, UserSigin } from 'domain/models';
@@ -138,15 +138,6 @@ export class UserRepository implements IUserRepository {
   }
 
   async activate(userId: string): Promise<boolean> {
-    const user = await prisma.users.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!user) {
-      throw new CustomError('User not found', 404, 'UserNotFound', 'UserNotFound');
-    }
     const { flg_active: active } = await prisma.users.update({
       data: {
         flg_active: true,
@@ -160,5 +151,53 @@ export class UserRepository implements IUserRepository {
     });
 
     return active;
+  }
+
+  async update(user: UserUpdateDTO): Promise<boolean> {
+    const { address, phoneNumber, familyName, givenName } = user;
+    await prisma.users.update({
+      data: {
+        phone_number: phoneNumber,
+        address,
+        family_name: familyName,
+        given_name: givenName,
+      },
+      where: {
+        id: user.id,
+      },
+    });
+    return true;
+  }
+
+  async findById(userId: string): Promise<UserDTO | null> {
+    const user = await prisma.users.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        given_name: true,
+        family_name: true,
+        address: true,
+        phone_number: true,
+        email: true,
+        flg_active: true,
+        flg_confirmed: true,
+        gender: true,
+      },
+    });
+
+    if (user) {
+      return {
+        email: user.email,
+        name: `${user.given_name} ${user.family_name}`,
+        address: user.address,
+        phoneNumber: user.phone_number,
+        flgActive: user.flg_active,
+        flgConfirmed: user.flg_confirmed,
+        gender: user.gender,
+      };
+    }
+
+    return null;
   }
 }

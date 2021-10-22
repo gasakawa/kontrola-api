@@ -7,3 +7,4 @@ export * from './activate-user.service';
 export * from './resend-user-confirmation-code.service';
 export * from './change-initial-password.service';
 export * from './signout-user.service';
+export * from './update-user.service';

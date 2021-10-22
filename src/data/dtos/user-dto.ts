@@ -13,3 +13,11 @@ export type UserDTO = {
   flgConfirmed: boolean;
   gender: string;
 };
+
+export type UserUpdateDTO = {
+  familyName: string;
+  givenName: string;
+  address: string;
+  phoneNumber: string;
+  id: string;
+};

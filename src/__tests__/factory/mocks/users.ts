@@ -1,4 +1,5 @@
 import { UserModel } from 'domain/models';
+import { UserUpdateDTO } from 'data/dtos';
 import { users } from '.prisma/client';
 
 export const buildFakeUser = (): UserModel => ({
@@ -38,4 +39,12 @@ export const buildFakeDbUser = (): users => ({
   profile_pic_url: 'url',
   updated_at: new Date(),
   created_at: new Date(),
+});
+
+export const buildFakeUpdateUser = (): UserUpdateDTO => ({
+  phoneNumber: 'phoneNumber',
+  givenName: 'givenName',
+  familyName: 'familyName',
+  id: 'user_id',
+  address: 'address',
 });

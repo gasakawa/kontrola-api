@@ -61,4 +61,16 @@ describe('Reset Password Controller', () => {
       expect(e.statusCode).toBe(400);
     }
   });
+
+  it('should trhows if handle user password service throws a not found error', async () => {
+    const { sut, handleUserPasswordService } = makeSut();
+
+    handleUserPasswordService.resetPassword.mockRejectedValueOnce(new CustomError('', 404, '', ''));
+
+    try {
+      await sut.handle(fakeRequest);
+    } catch (e: any) {
+      expect(e.statusCode).toBe(404);
+    }
+  });
 });

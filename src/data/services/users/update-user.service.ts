@@ -1,22 +1,23 @@
+import { UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
-export class ActivateUserService {
+export class UpdateUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository,
   ) {}
 
-  public async activate(userId: string): Promise<boolean> {
-    const user = await this.userRepository.findById(userId);
+  public async update(user: UserUpdateDTO): Promise<boolean> {
+    const findUser = await this.userRepository.findById(user.id);
 
-    if (!user) {
+    if (!findUser) {
       throw new CustomError('User not found', 404, 'UserNotFound', 'UserNotFound');
     }
 
-    const active = await this.userRepository.activate(userId);
-    return active;
+    const updated = await this.userRepository.update(user);
+    return updated;
   }
 }

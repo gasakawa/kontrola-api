@@ -16,11 +16,13 @@ import {
   ResetPasswordController,
   SigninController,
   SignupController,
+  UpdateUserController,
 } from 'presentation/controllers/users';
 
 import { container } from 'tsyringe';
 import { ActivateUserController } from 'presentation/controllers/users/activate-user.controller';
 import { ResendUserConfirmationCodeController } from 'presentation/controllers/users/resend-user-confirmation-code.controller';
+import { UpdateUserService } from 'data/services/users/update-user.service';
 
 const handleUserPasswordService = container.resolve(HandleUserPasswordService);
 
@@ -64,4 +66,9 @@ export const makeResendUserConfirmationCodeController = (): Controller => {
 export const makeChangeInitialPasswordController = (): Controller => {
   const changeInitialPasswordService = container.resolve(ChangeInitialPasswordService);
   return new ChangeInitialPasswordController(changeInitialPasswordService);
+};
+
+export const makeUpdateUserController = (): Controller => {
+  const updateUserService = container.resolve(UpdateUserService);
+  return new UpdateUserController(updateUserService);
 };
