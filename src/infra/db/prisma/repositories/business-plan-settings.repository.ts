@@ -33,7 +33,7 @@ export class BusinessPlanSettingsRepository implements IBusinessPlanSettingsRepo
   async getLimits(companyId: string): Promise<BusinessPlanSettings> {
     const result = (await prisma.$queryRaw`select * from get_company_plan_limits(${companyId})`) as any;
 
-    const { get_company_plan_limits } = result;
+    const [{ get_company_plan_limits }] = result;
     return get_company_plan_limits as BusinessPlanSettings;
   }
 }

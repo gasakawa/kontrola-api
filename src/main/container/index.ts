@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { Authenticator } from 'data/protocols/security';
 import { CognitoAdapter } from 'infra/security/auth/cognito-adapter';
 import {
+  IBusinessPlanSettingsRepository,
   ICompanyPlanPaymentControlRepository,
   ICompanyPlanUsersRepository,
   IModuleRepository,
@@ -12,6 +13,7 @@ import {
 } from 'data/protocols/db';
 import { ICompanyPlanRepository } from 'data/protocols/db/i-company-plan';
 import {
+  BusinessPlanSettingsRepository,
   CompanyPlanPaymentControlRepository,
   CompanyPlanRepository,
   CompanyPlanUserRepository,
@@ -33,3 +35,7 @@ container.registerSingleton<ICompanyPlanPaymentControlRepository>(
 container.registerSingleton<IUserMeasuersRepository>('UserMeasureRepository', UserMeasureRepository);
 container.registerSingleton<ICompanyPlanUsersRepository>('CompanyPlanUsersRepository', CompanyPlanUserRepository);
 container.registerSingleton<IModuleRepository>('ModuleRepository', ModuleRepository);
+container.registerSingleton<IBusinessPlanSettingsRepository>(
+  'BusinessPlanSettingsRepository',
+  BusinessPlanSettingsRepository,
+);

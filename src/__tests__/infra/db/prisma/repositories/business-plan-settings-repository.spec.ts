@@ -46,20 +46,22 @@ describe('Business Plan Settings Repository', () => {
 
   it('should return business plan limits for a company', async () => {
     const { sut } = makeSut();
-    prismaMock.$queryRaw.mockResolvedValueOnce({
-      get_company_plan_limits: {
-        adminLimit: 2,
-        usersLimit: 100,
-        headquartersLimit: 2,
-        userProgressTrack: true,
-        schedule: true,
-        accessControl: true,
-        sendNotifications: true,
-        sendAlerts: true,
-        smsPlan: false,
-        devicesLimit: 4,
+    prismaMock.$queryRaw.mockResolvedValueOnce([
+      {
+        get_company_plan_limits: {
+          adminLimit: 2,
+          usersLimit: 100,
+          headquartersLimit: 2,
+          userProgressTrack: true,
+          schedule: true,
+          accessControl: true,
+          sendNotifications: true,
+          sendAlerts: true,
+          smsPlan: false,
+          devicesLimit: 4,
+        },
       },
-    });
+    ]);
 
     const response = await sut.getLimits('company_id');
 
