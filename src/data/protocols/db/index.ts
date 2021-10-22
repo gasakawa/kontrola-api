@@ -5,3 +5,4 @@ export * from './i-company-plan-payment-control';
 export * from './i-user-measures.repository';
 export * from './i-company-plan-users.repository';
 export * from './i-module.repository';
+export * from './i-business-plan-settings.repository';

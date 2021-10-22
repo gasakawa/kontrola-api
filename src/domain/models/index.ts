@@ -5,3 +5,4 @@ export * from './company-plans';
 export * from './company-plan-payment-control';
 export * from './company-plan-users';
 export * from './module';
+export * from './business-plan';

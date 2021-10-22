@@ -1,4 +1,3 @@
-import { Module } from 'domain/models';
 import { ModuleRepository } from 'infra/db/prisma/repositories';
 import { prismaMock } from '__tests__/factory/singleton';
 

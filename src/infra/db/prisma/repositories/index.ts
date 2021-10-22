@@ -6,3 +6,4 @@ export * from './user.repository';
 export * from './user-measure-repository';
 export * from './company-plan-user.repository';
 export * from './module.repository';
+export * from './business-plan-settings.repository';
