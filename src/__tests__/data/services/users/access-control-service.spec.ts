@@ -6,6 +6,8 @@ interface SutTypes {
   accessControlRepositoryStub: AccessControProtocolStub;
 }
 
+const fakeAccessControl = { allowAccess: true, client: 'Client', code: 'AccessGranted', daysLeft: 9 };
+
 const makeSut = (): SutTypes => {
   const accessControlRepositoryStub = new AccessControProtocolStub();
   const sut = new AccessControlService(accessControlRepositoryStub);
@@ -15,10 +17,18 @@ const makeSut = (): SutTypes => {
   };
 };
 
-describe('AccessControlService', () => {
+describe('Access Control Service', () => {
   it('should create a access control record', async () => {
     const { sut } = makeSut();
-    const isCreated = await sut.create('user_id', 1);
-    expect(isCreated).toBe(true);
+    const accessControl = await sut.create('company_id', 'document_id', 1);
+    expect(accessControl).toMatchObject(fakeAccessControl);
+  });
+
+  it('should call access control repository with correct data', async () => {
+    const { sut, accessControlRepositoryStub } = makeSut();
+    const spy = jest.spyOn(accessControlRepositoryStub, 'create');
+    await sut.create('company_id', 'document_id', 1);
+
+    expect(spy).toHaveBeenCalledWith('company_id', 'document_id', 1);
   });
 });

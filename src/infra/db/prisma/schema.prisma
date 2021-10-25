@@ -13,6 +13,7 @@ model access_control {
   headquarter_id Int?
   created_at     DateTime      @default(now()) @db.Timestamptz(6)
   company_id     String?       @db.Uuid
+  flg_overdue Boolean
   companies      companies?    @relation(fields: [company_id], references: [id], map: "access_control_company_fk")
   headquarters   headquarters? @relation(fields: [headquarter_id], references: [id], map: "access_control_heaquarter_fk")
   users          users?        @relation(fields: [user_id], references: [id], map: "access_control_user_fk")
@@ -171,7 +172,7 @@ model users {
   address                       String                          @db.VarChar(255)
   phone_number                  String                          @db.VarChar(20)
   email                         String                          @unique(map: "users_email_uindex") @db.VarChar(100)
-  document_id                   String                          @db.VarChar(30)
+  document_id                   String                          @unique(map: "users_document_id_uindex") @db.VarChar(30)
   document_type                 Int?
   sub                           String?                         @unique(map: "users_sub_uindex") @db.Uuid
   flg_active                    Boolean                         @default(false)

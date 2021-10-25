@@ -1,3 +1,5 @@
+import { AccessControlDTO } from 'data/dtos';
+
 export interface IAccessControlRepository {
-  create(userId: string, headquarterId: number): Promise<boolean>;
+  create(companyId: string, documentId: string, headquarterId: number): Promise<AccessControlDTO>;
 }

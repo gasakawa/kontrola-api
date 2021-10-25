@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { IAccessControlRepository } from 'data/protocols/db';
+import { AccessControlDTO } from 'data/dtos';
 
 @injectable()
 export class AccessControlService {
@@ -8,8 +9,8 @@ export class AccessControlService {
     private accessControlRepository: IAccessControlRepository,
   ) {}
 
-  async create(userId: string, headquarterId: number): Promise<boolean> {
-    const isCreated = await this.accessControlRepository.create(userId, headquarterId);
-    return isCreated;
+  async create(companyId: string, documentId: string, headquarterId: number): Promise<AccessControlDTO> {
+    const accessControl = await this.accessControlRepository.create(companyId, documentId, headquarterId);
+    return accessControl;
   }
 }
