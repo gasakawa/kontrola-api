@@ -7,6 +7,7 @@ import {
   IBusinessPlanSettingsRepository,
   ICompanyPlanPaymentControlRepository,
   ICompanyPlanUsersRepository,
+  ICompanyRepository,
   IModuleRepository,
   ISessionRepository,
   IUserMeasuersRepository,
@@ -19,6 +20,7 @@ import {
   CompanyPlanPaymentControlRepository,
   CompanyPlanRepository,
   CompanyPlanUserRepository,
+  CompanyRepository,
   ModuleRepository,
   UserMeasureRepository,
   UserRepository,
@@ -42,3 +44,4 @@ container.registerSingleton<IBusinessPlanSettingsRepository>(
   BusinessPlanSettingsRepository,
 );
 container.registerSingleton<IAccessControlRepository>('AccessControlRepository', AccessControlRepository);
+container.registerSingleton<ICompanyRepository>('CompanyRepository', CompanyRepository);
