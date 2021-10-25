@@ -45,6 +45,7 @@ export class UserRepositoryStub implements IUserRepository {
       role: 1,
       flgActive: true,
       flgConfirmed: true,
+      profilePicUrl: 'profile_pic_url',
     };
 
     return new Promise(resolve => resolve(signinUser));

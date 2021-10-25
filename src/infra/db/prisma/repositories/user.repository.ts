@@ -118,6 +118,7 @@ export class UserRepository implements IUserRepository {
         role_id: true,
         flg_active: true,
         flg_confirmed: true,
+        profile_pic_url: true,
       },
     });
 
@@ -131,6 +132,7 @@ export class UserRepository implements IUserRepository {
         role: user.role_id || 0,
         flgActive: user.flg_active,
         flgConfirmed: user.flg_confirmed,
+        profilePicUrl: user.profile_pic_url || '',
       };
     }
 

@@ -19,6 +19,7 @@ export interface SigninResponseDTO {
     sessionId: string;
     active: boolean;
     confirmed: boolean;
+    profilePicUrl: string;
   };
   sessionLimits?: SessionLimitDTO;
 }

@@ -35,6 +35,7 @@ export class CognitoAdapterStub implements Authenticator {
         sessionId: 'session',
         active: true,
         confirmed: true,
+        profilePicUrl: 'profile_pic_url',
       },
     };
 

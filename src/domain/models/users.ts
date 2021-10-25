@@ -25,4 +25,5 @@ export type UserSigin = {
   role: number;
   flgActive: boolean;
   flgConfirmed: boolean;
+  profilePicUrl: string;
 };

@@ -69,6 +69,7 @@ describe('Authenticate User Service', () => {
           role: 0,
           flgActive: false,
           flgConfirmed: true,
+          profilePicUrl: 'profile_pic_url',
         }),
       ),
     );
@@ -97,6 +98,7 @@ describe('Authenticate User Service', () => {
           role: 0,
           flgActive: true,
           flgConfirmed: false,
+          profilePicUrl: 'profile_pic_url',
         }),
       ),
     );

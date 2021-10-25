@@ -64,6 +64,7 @@ export class AuthenticateUserService {
         sessionId,
         active: user.flgActive,
         confirmed: user.flgConfirmed,
+        profilePicUrl: user.profilePicUrl,
       },
     };
   }
