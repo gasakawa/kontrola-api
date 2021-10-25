@@ -1,7 +1,7 @@
 import { MESSAGES } from 'languages';
 import global from 'main/config/global';
 
-export const translate = (code: string, message: string, type: string): string => {
+export const translate = (code: string, message: string, type: 'success' | 'error'): string => {
   const { lang } = global;
   let messageTranslated: string;
 

@@ -33,6 +33,10 @@ export const MESSAGES = {
     es: {
       PasswordResetCode: 'Código enviado',
       UserUpdated: 'Usuario actualizado con éxito',
+      AccessControlGranted: 'Accesso permitido',
+      AccessControlDenied: 'Acceso negado',
+      AccessControlUserInactive: 'Acceso negado - Usuario inactivo',
+      AccessControlInvalidHeadquarter: 'Accesso negado - Usuario de otra sede',
     },
   },
 } as Message;

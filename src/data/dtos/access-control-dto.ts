@@ -3,4 +3,5 @@ export type AccessControlDTO = {
   allowAccess: boolean;
   code: string;
   daysLeft: number;
+  message?: string;
 };
