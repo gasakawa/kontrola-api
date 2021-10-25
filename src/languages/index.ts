@@ -27,6 +27,7 @@ export const MESSAGES = {
       UserAlreadyConfirmed: 'Este usuario ya fué confirmado',
       WrongTemporayPassword: 'Datos de acceso temporal incorrectos',
       EmailNotFound: 'E-mail no registrado',
+      CompanyNotFound: 'Empresa no registrada',
     },
   },
   success: {
