@@ -17,7 +17,7 @@ const makeSut = () => {
 describe('Change Initial Password Service', () => {
   it('should be able to change the initial password', async () => {
     const { sut, userRepositoryStub } = makeSut();
-    jest.spyOn(userRepositoryStub, 'findByEmail').mockResolvedValueOnce({
+    jest.spyOn(userRepositoryStub, 'find').mockResolvedValueOnce({
       name: 'name',
       address: 'address',
       phoneNumber: 'phone',
@@ -40,7 +40,17 @@ describe('Change Initial Password Service', () => {
   });
 
   it('should throws if user already confirmed', async () => {
-    const { sut } = makeSut();
+    const { sut, userRepositoryStub } = makeSut();
+
+    jest.spyOn(userRepositoryStub, 'find').mockResolvedValueOnce({
+      flgConfirmed: true,
+      flgActive: true,
+      phoneNumber: 'phone_number',
+      name: 'Name',
+      gender: 'M',
+      email: 'user@email.com',
+      address: 'address',
+    });
 
     try {
       await sut.change('user@email.com', 'new_password', 'temp_password');
@@ -50,6 +60,28 @@ describe('Change Initial Password Service', () => {
         message: 'User already confirmed',
         statusCode: 400,
       });
+    }
+  });
+
+  it('should throws if not authorized exception is trhown', async () => {
+    const { sut, cognitoAdapterStub, userRepositoryStub } = makeSut();
+    jest.spyOn(userRepositoryStub, 'find').mockResolvedValueOnce({
+      flgConfirmed: false,
+      flgActive: false,
+      phoneNumber: 'phone_number',
+      name: 'Name',
+      gender: 'M',
+      email: 'user@email.com',
+      address: 'address',
+    });
+    jest.spyOn(cognitoAdapterStub, 'signin').mockRejectedValueOnce(throwError);
+    try {
+      await sut.change('user@email.com', 'new_password', 'temp_password');
+    } catch (e: any) {
+      console.log('🚀 ~ file: change-initial-password-service.spec.ts ~ line 81 ~ it ~ e', e);
+
+      expect(e).toBeTruthy();
+      expect(e.code).toBe('dkdkd');
     }
   });
 });

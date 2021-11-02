@@ -13,7 +13,7 @@ export class HandleUserPasswordService {
   ) {}
 
   public async forgotPassword(username: string): Promise<boolean> {
-    const user = await this.userRepository.findByEmail(username);
+    const user = await this.userRepository.find(username);
     if (user === null) {
       throw new CustomError('E-mail not found', 404, 'EmailNotFound', 'EmailNotFound');
     }
@@ -22,7 +22,7 @@ export class HandleUserPasswordService {
   }
 
   public async resetPassword(username: string, password: string, code: string): Promise<boolean> {
-    const user = await this.userRepository.findByEmail(username);
+    const user = await this.userRepository.find(username);
     if (user === null) {
       throw new CustomError('E-mail not found', 404, 'EmailNotFound', 'EmailNotFound');
     }

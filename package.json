@@ -15,12 +15,14 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",
+    "morgan": "^1.10.0",
     "mysql": "^2.14.1",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.10",
     "tsyringe": "^4.6.0",
     "typeorm": "0.2.37",
-    "uuidv4": "^6.2.12"
+    "uuidv4": "^6.2.12",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
@@ -28,8 +30,10 @@
     "@types/jest": "^27.0.1",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/jwk-to-pem": "^2.0.1",
+    "@types/morgan": "^1.9.3",
     "@types/node": "^8.0.29",
     "@types/supertest": "^2.0.11",
+    "@types/validator": "^13.6.6",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",

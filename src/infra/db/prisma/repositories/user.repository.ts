@@ -1,4 +1,6 @@
-import { UserAuthDTO, UserDTO, UserUpdateDTO } from 'data/dtos';
+import { add, format } from 'date-fns';
+import validator from 'validator';
+import { UserAuthDTO, UserDTO, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { UserModel, UserSigin } from 'domain/models';
@@ -6,38 +8,6 @@ import { UserModel, UserSigin } from 'domain/models';
 import prisma from 'infra/db/prisma/client/prisma-client';
 
 export class UserRepository implements IUserRepository {
-  async findByEmail(email: string): Promise<UserDTO | null> {
-    const user = await prisma.users.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        given_name: true,
-        family_name: true,
-        address: true,
-        phone_number: true,
-        email: true,
-        flg_active: true,
-        flg_confirmed: true,
-        gender: true,
-      },
-    });
-
-    if (user) {
-      return {
-        email: user.email,
-        name: `${user.given_name} ${user.family_name}`,
-        address: user.address,
-        phoneNumber: user.phone_number,
-        flgActive: user.flg_active,
-        flgConfirmed: user.flg_confirmed,
-        gender: user.gender,
-      };
-    }
-
-    return null;
-  }
-
   async create(userData: UserModel): Promise<UserAuthDTO> {
     const {
       phoneNumber,
@@ -171,11 +141,83 @@ export class UserRepository implements IUserRepository {
     return true;
   }
 
-  async findById(userId: string): Promise<UserDTO | null> {
+  async getProfile(userId: string): Promise<UserProfileDTO | null> {
     const user = await prisma.users.findUnique({
       where: {
-        id: userId,
+        sub: userId,
       },
+      select: {
+        given_name: true,
+        family_name: true,
+        address: true,
+        phone_number: true,
+        email: true,
+        flg_active: true,
+        flg_confirmed: true,
+        gender: true,
+        profile_pic_url: true,
+        headquarters: {
+          select: {
+            name: true,
+          },
+        },
+        company_plan_payments_control: {
+          select: {
+            payment_date: true,
+          },
+          orderBy: {
+            payment_date: 'desc',
+          },
+          take: 1,
+        },
+        company_plan_users: {
+          select: {
+            company_plans: {
+              select: { name: true, charge_period: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (user) {
+      const paymentDate = user.company_plan_payments_control[0].payment_date;
+      const chargePeriod = user.company_plan_users[0].company_plans?.charge_period || 0;
+      const lastPaymentDate = format(paymentDate, 'dd/MM/uuu');
+      const nextPaymentDate = format(add(paymentDate, { days: chargePeriod }), 'dd/MM/uuu');
+      return {
+        email: user.email,
+        name: `${user.given_name} ${user.family_name}`,
+        address: user.address,
+        phoneNumber: user.phone_number,
+        flgActive: user.flg_active,
+        flgConfirmed: user.flg_confirmed,
+        gender: user.gender,
+        profilePic: user.profile_pic_url || '',
+        headquarter: user.headquarters?.name || '',
+        plan: {
+          name: user.company_plan_users[0].company_plans?.name || '',
+          lastPaymentDate,
+          nextPaymentDate,
+        },
+      };
+    }
+    return null;
+  }
+
+  async find(key: string): Promise<UserDTO | null> {
+    let condition;
+    if (validator.isEmail(key)) {
+      condition = {
+        email: key,
+      };
+    } else {
+      condition = {
+        id: key,
+      };
+    }
+    const user = await prisma.users.findUnique({
+      where: condition,
       select: {
         given_name: true,
         family_name: true,

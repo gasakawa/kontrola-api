@@ -13,7 +13,8 @@ export class ChangeInitialPasswordService {
   ) {}
 
   public async change(username: string, password: string, oldPassword: string): Promise<boolean> {
-    const user = await this.userRepository.findByEmail(username);
+    const user = await this.userRepository.find(username);
+
     if (user?.flgConfirmed) {
       throw new CustomError('User already confirmed', 400, 'UserAlreadyConfirmed', 'UserAlreadyConfirmed');
     }

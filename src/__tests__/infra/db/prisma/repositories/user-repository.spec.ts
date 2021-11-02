@@ -26,7 +26,7 @@ describe('User Repository', () => {
     const { sut, fakeDbUser } = makeSut();
     prismaMock.users.findUnique.mockResolvedValue(fakeDbUser);
 
-    const user = await sut.findByEmail('user@email.com');
+    const user = await sut.find('user@email.com');
 
     expect(user).toBeTruthy();
     expect(user?.name).toBe('given_name family_name');
@@ -35,7 +35,7 @@ describe('User Repository', () => {
   it('should return null if user does not exists', async () => {
     const { sut } = makeSut();
     prismaMock.users.findUnique.mockResolvedValue(null);
-    const user = await sut.findByEmail('user@email.com');
+    const user = await sut.find('user@email.com');
     expect(user).toBeNull();
   });
 
@@ -100,7 +100,7 @@ describe('User Repository', () => {
   it('should be able to find an user by his id', async () => {
     const { sut, fakeDbUser } = makeSut();
     prismaMock.users.findUnique.mockResolvedValueOnce(fakeDbUser);
-    const user = await sut.findById('user_id');
+    const user = await sut.find('user_id');
 
     expect(user).toBeTruthy();
     expect(user?.email).toBe('user@email.com');
@@ -109,7 +109,7 @@ describe('User Repository', () => {
   it('should be able to return null if an user not exists', async () => {
     const { sut } = makeSut();
     prismaMock.users.findUnique.mockResolvedValueOnce(null);
-    const user = await sut.findById('user_id');
+    const user = await sut.find('user_id');
 
     expect(user).toBe(null);
   });

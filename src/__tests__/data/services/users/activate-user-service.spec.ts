@@ -22,7 +22,7 @@ describe('Activate User Service', () => {
 
   it('should throws if user repository throws', async () => {
     const { sut, userRepository } = makeSut();
-    jest.spyOn(userRepository, 'findById').mockResolvedValueOnce(null);
+    jest.spyOn(userRepository, 'find').mockResolvedValueOnce(null);
     try {
       await sut.activate('user_id');
     } catch (e) {

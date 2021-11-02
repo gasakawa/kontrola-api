@@ -56,7 +56,7 @@ describe('Handle User Password Service', () => {
 
   it('should throws if try to get a new code to reset password for an unregistered email', async () => {
     const { sut, userRepositoryStub } = makeSut();
-    jest.spyOn(userRepositoryStub, 'findByEmail').mockResolvedValueOnce(null);
+    jest.spyOn(userRepositoryStub, 'find').mockResolvedValueOnce(null);
 
     const promise = sut.forgotPassword('use@email.com');
 
@@ -65,7 +65,7 @@ describe('Handle User Password Service', () => {
 
   it('should throws if try to reset password for an unregistered email', async () => {
     const { sut, userRepositoryStub } = makeSut();
-    jest.spyOn(userRepositoryStub, 'findByEmail').mockResolvedValueOnce(null);
+    jest.spyOn(userRepositoryStub, 'find').mockResolvedValueOnce(null);
 
     const promise = sut.resetPassword('use@email.com', 'password', 'code');
 

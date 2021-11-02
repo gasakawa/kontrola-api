@@ -4,6 +4,7 @@ import {
   ChangeInitialPasswordService,
   ConfirmUserService,
   CreateUserService,
+  GetUserService,
   HandleUserPasswordService,
   ResendUserConfirmationCodeService,
 } from 'data/services/users';
@@ -13,6 +14,7 @@ import {
   ChangePasswordController,
   ConfirmSignupController,
   ForgotPasswordController,
+  GetUserController,
   ResetPasswordController,
   SigninController,
   SignupController,
@@ -71,4 +73,9 @@ export const makeChangeInitialPasswordController = (): Controller => {
 export const makeUpdateUserController = (): Controller => {
   const updateUserService = container.resolve(UpdateUserService);
   return new UpdateUserController(updateUserService);
+};
+
+export const makeGetUserController = (): Controller => {
+  const getUserService = container.resolve(GetUserService);
+  return new GetUserController(getUserService);
 };

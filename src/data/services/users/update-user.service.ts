@@ -11,7 +11,7 @@ export class UpdateUserService {
   ) {}
 
   public async update(user: UserUpdateDTO): Promise<boolean> {
-    const findUser = await this.userRepository.findById(user.id);
+    const findUser = await this.userRepository.find(user.id);
 
     if (!findUser) {
       throw new CustomError('User not found', 404, 'UserNotFound', 'UserNotFound');

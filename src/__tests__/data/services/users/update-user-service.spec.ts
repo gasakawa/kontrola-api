@@ -25,7 +25,7 @@ describe('Update User Service', () => {
 
   it('should throws if user repository throws', async () => {
     const { sut, userRepository } = makeSut();
-    jest.spyOn(userRepository, 'findById').mockResolvedValueOnce(null);
+    jest.spyOn(userRepository, 'find').mockResolvedValueOnce(null);
     try {
       await sut.update(fakeUpdateUser);
     } catch (e) {
