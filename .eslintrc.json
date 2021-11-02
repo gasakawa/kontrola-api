@@ -17,6 +17,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "import/no-duplicates": "off",
+    "no-plusplus": "off",
     "no-empty": "off",
     "import/extensions": [
       "error",
