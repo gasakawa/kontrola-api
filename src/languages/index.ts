@@ -38,6 +38,7 @@ export const MESSAGES = {
       AccessControlDenied: 'Acceso negado',
       AccessControlUserInactive: 'Acceso negado - Usuario inactivo',
       AccessControlInvalidHeadquarter: 'Accesso negado - Usuario de otra sede',
+      PasswordChanged: 'Contraseña actualizada exitosamente',
     },
   },
 } as Message;

@@ -1,5 +1,6 @@
 import { HandleUserPasswordService } from 'data/services/users';
 import { badRequest, ok, serverError } from 'presentation/helpers/http/http-helper';
+import { translate } from 'presentation/helpers/translation';
 import { Controller, HttpRequest, HttpResponse } from 'presentation/protocols';
 
 export class ChangePasswordController implements Controller {
@@ -12,7 +13,7 @@ export class ChangePasswordController implements Controller {
     try {
       await this.handleUserPasswordService.changePassword(token, oldPassword, newPassword);
       return ok({
-        message: 'Password changed',
+        message: translate('PasswordChanged', 'Password changed', 'success'),
         isConfirmed: true,
       });
     } catch (error: any) {
