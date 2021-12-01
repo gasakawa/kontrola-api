@@ -36,5 +36,25 @@ export type UserProfileDTO = {
     lastPaymentDate: string;
     nextPaymentDate: string;
     name: string;
+    value: number;
   };
+  givenName: string;
+  familyName: string;
+  id: string;
+};
+
+export type UserListDTO = {
+  allowAddNewUser: boolean;
+  pages: number;
+  totalUsers: number;
+  totalAdmins: number;
+  users: [
+    {
+      id: string;
+      plan: string;
+      email: string;
+      status: string;
+      fullName: string;
+    },
+  ];
 };

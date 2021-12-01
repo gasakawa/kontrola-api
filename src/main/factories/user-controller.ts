@@ -6,6 +6,7 @@ import {
   CreateUserService,
   GetUserService,
   HandleUserPasswordService,
+  ListUsersService,
   ResendUserConfirmationCodeService,
 } from 'data/services/users';
 import { Controller } from 'presentation/protocols';
@@ -15,6 +16,7 @@ import {
   ConfirmSignupController,
   ForgotPasswordController,
   GetUserController,
+  ListUsersController,
   ResetPasswordController,
   SigninController,
   SignupController,
@@ -78,4 +80,9 @@ export const makeUpdateUserController = (): Controller => {
 export const makeGetUserController = (): Controller => {
   const getUserService = container.resolve(GetUserService);
   return new GetUserController(getUserService);
+};
+
+export const makeListUsersController = (): Controller => {
+  const listUsersService = container.resolve(ListUsersService);
+  return new ListUsersController(listUsersService);
 };

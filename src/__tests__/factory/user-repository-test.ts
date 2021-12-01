@@ -1,8 +1,28 @@
-import { UserAuthDTO, UserDTO, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
+import { UserAuthDTO, UserDTO, UserListDTO, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { UserModel, UserSigin } from 'domain/models';
 
 export class UserRepositoryStub implements IUserRepository {
+  async list(_companyId: string, _roleId: number, _page: number, _records: number): Promise<UserListDTO | null> {
+    return new Promise(resolve =>
+      resolve({
+        allowAddNewUser: true,
+        pages: 1,
+        totalAdmins: 2,
+        totalUsers: 50,
+        users: [
+          {
+            id: 'user_id',
+            plan: 'Plan',
+            email: 'user@email.com',
+            status: 'status',
+            fullName: 'Full Name',
+          },
+        ],
+      }),
+    );
+  }
+
   async activate(_userId: string): Promise<boolean> {
     return new Promise(resolve => resolve(true));
   }
@@ -57,7 +77,11 @@ export class UserRepositoryStub implements IUserRepository {
           name: 'Plan',
           lastPaymentDate: '27/10/2021',
           nextPaymentDate: '26/11/2021',
+          value: 100,
         },
+        givenName: 'John',
+        familyName: 'Doe',
+        id: 'user_id',
       }),
     );
   }

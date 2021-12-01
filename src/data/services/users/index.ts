@@ -9,3 +9,4 @@ export * from './change-initial-password.service';
 export * from './signout-user.service';
 export * from './update-user.service';
 export * from './get-user.service';
+export * from './list-users.service';

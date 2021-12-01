@@ -1,6 +1,6 @@
 import { add, format } from 'date-fns';
 import validator from 'validator';
-import { UserAuthDTO, UserDTO, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
+import { UserAuthDTO, UserDTO, UserListDTO, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { UserModel, UserSigin } from 'domain/models';
@@ -147,6 +147,7 @@ export class UserRepository implements IUserRepository {
         sub: userId,
       },
       select: {
+        id: true,
         given_name: true,
         family_name: true,
         address: true,
@@ -173,8 +174,11 @@ export class UserRepository implements IUserRepository {
         company_plan_users: {
           select: {
             company_plans: {
-              select: { name: true, charge_period: true },
+              select: { name: true, charge_period: true, price: true },
             },
+          },
+          where: {
+            flg_active: true,
           },
         },
       },
@@ -183,6 +187,7 @@ export class UserRepository implements IUserRepository {
     if (user) {
       const paymentDate = user.company_plan_payments_control[0].payment_date;
       const chargePeriod = user.company_plan_users[0].company_plans?.charge_period || 0;
+      const value = user.company_plan_users[0].company_plans?.price || 0;
       const lastPaymentDate = format(paymentDate, 'dd/MM/uuu');
       const nextPaymentDate = format(add(paymentDate, { days: chargePeriod }), 'dd/MM/uuu');
       return {
@@ -199,7 +204,11 @@ export class UserRepository implements IUserRepository {
           name: user.company_plan_users[0].company_plans?.name || '',
           lastPaymentDate,
           nextPaymentDate,
+          value: Number(value),
         },
+        givenName: user.given_name,
+        familyName: user.family_name,
+        id: user.id,
       };
     }
     return null;
@@ -242,6 +251,20 @@ export class UserRepository implements IUserRepository {
       };
     }
 
+    return null;
+  }
+
+  async list(companyId: string, roleId: number, page: number, records: number): Promise<UserListDTO | null> {
+    const realPage = (page - 1) * records;
+    try {
+      const result =
+        (await prisma.$queryRaw`select * from list_users(${companyId}, ${roleId}, ${realPage}, ${records})`) as any;
+
+      const [{ list_users }] = result;
+      return list_users as UserListDTO;
+    } catch (e) {
+      console.error(e);
+    }
     return null;
   }
 }
