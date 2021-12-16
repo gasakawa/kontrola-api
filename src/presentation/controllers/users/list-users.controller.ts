@@ -7,10 +7,20 @@ export class ListUsersController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const { companyId } = httpRequest.params;
-    const { roleId, page, records } = httpRequest.query;
+    const { roleId, page, records, orderField, orderDirection, queryField } = httpRequest.query;
+
+    const userListRequestDto = {
+      companyId,
+      roleId: Number(roleId),
+      page: Number(page),
+      records: Number(records),
+      orderDirection,
+      queryField,
+      orderField,
+    };
 
     try {
-      const users = await this.listUsersService.list(companyId, Number(roleId), Number(page), Number(records));
+      const users = await this.listUsersService.list(userListRequestDto);
       return ok(users);
     } catch (error: any) {
       if (error.statusCode === 400) {

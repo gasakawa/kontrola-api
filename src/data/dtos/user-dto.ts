@@ -23,24 +23,27 @@ export type UserUpdateDTO = {
 };
 
 export type UserProfileDTO = {
-  email: string;
-  name: string;
-  address: string;
-  phoneNumber: string;
-  flgActive: boolean;
-  flgConfirmed: boolean;
-  gender: string;
-  headquarter: string;
-  profilePic: string;
+  user: {
+    email: string;
+    name: string;
+    address: string;
+    phoneNumber: string;
+    flgConfirmed: boolean;
+    flgActive: boolean;
+    gender: string;
+    headquarter: string;
+    profilePic: string;
+    givenName: string;
+    familyName: string;
+    id: string;
+  };
   plan: {
     lastPaymentDate: string;
     nextPaymentDate: string;
     name: string;
     value: number;
+    overdue: boolean;
   };
-  givenName: string;
-  familyName: string;
-  id: string;
 };
 
 export type UserListDTO = {
@@ -48,6 +51,7 @@ export type UserListDTO = {
   pages: number;
   totalUsers: number;
   totalAdmins: number;
+  totalRecords: number;
   users: [
     {
       id: string;
@@ -55,6 +59,19 @@ export type UserListDTO = {
       email: string;
       status: string;
       fullName: string;
+      givenName: string;
+      familyName: string;
+      documentId: string;
     },
   ];
+};
+
+export type UserListRequestDto = {
+  companyId: string;
+  roleId: number;
+  page: number;
+  records: number;
+  orderField: string;
+  orderDirection: string;
+  queryField: string;
 };

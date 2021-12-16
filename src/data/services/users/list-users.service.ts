@@ -1,4 +1,4 @@
-import { UserListDTO } from 'data/dtos';
+import { UserListDTO, UserListRequestDto } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { inject, injectable } from 'tsyringe';
 
@@ -9,8 +9,8 @@ export class ListUsersService {
     private userRepository: IUserRepository,
   ) {}
 
-  public async list(companyId: string, roleId: number, page: number, records: number): Promise<UserListDTO | null> {
-    const users = await this.userRepository.list(companyId, roleId, page, records);
+  public async list(userListRequestDto: UserListRequestDto): Promise<UserListDTO | null> {
+    const users = await this.userRepository.list(userListRequestDto);
 
     return users;
   }

@@ -1,15 +1,16 @@
-import { UserAuthDTO, UserDTO, UserListDTO, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
+import { UserAuthDTO, UserDTO, UserListDTO, UserListRequestDto, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { UserModel, UserSigin } from 'domain/models';
 
 export class UserRepositoryStub implements IUserRepository {
-  async list(_companyId: string, _roleId: number, _page: number, _records: number): Promise<UserListDTO | null> {
+  async list(_userListRequestDto: UserListRequestDto): Promise<UserListDTO | null> {
     return new Promise(resolve =>
       resolve({
         allowAddNewUser: true,
         pages: 1,
         totalAdmins: 2,
         totalUsers: 50,
+        totalRecords: 10,
         users: [
           {
             id: 'user_id',
@@ -17,6 +18,9 @@ export class UserRepositoryStub implements IUserRepository {
             email: 'user@email.com',
             status: 'status',
             fullName: 'Full Name',
+            givenName: 'Given',
+            familyName: 'Family Name',
+            documentId: 'document_id',
           },
         ],
       }),
@@ -64,24 +68,27 @@ export class UserRepositoryStub implements IUserRepository {
   async getProfile(_id: string): Promise<UserProfileDTO> {
     return new Promise(resolve =>
       resolve({
-        email: 'user@email.com',
-        name: 'John Doe',
-        address: 'address',
-        phoneNumber: 'phone_number',
-        flgActive: true,
-        flgConfirmed: true,
-        gender: 'M',
-        headquarter: 'headquarter',
-        profilePic: 'profile_url',
+        user: {
+          email: 'user@email.com',
+          name: 'John Doe',
+          address: 'address',
+          phoneNumber: 'phone_number',
+          flgActive: true,
+          flgConfirmed: true,
+          gender: 'M',
+          headquarter: 'headquarter',
+          profilePic: 'profile_url',
+          givenName: 'John',
+          familyName: 'Doe',
+          id: 'user_id',
+        },
         plan: {
           name: 'Plan',
           lastPaymentDate: '27/10/2021',
           nextPaymentDate: '26/11/2021',
           value: 100,
+          overdue: false,
         },
-        givenName: 'John',
-        familyName: 'Doe',
-        id: 'user_id',
       }),
     );
   }
