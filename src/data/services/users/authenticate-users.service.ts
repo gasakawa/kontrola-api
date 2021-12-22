@@ -51,6 +51,9 @@ export class AuthenticateUserService {
       sessionInfo: { ip, country, city, longitude, latitude, hostname },
     });
 
+    const profilePicUrl =
+      user.profilePicUrl !== '' ? `https://kontrola-system.s3.amazonaws.com/user-pics/${user.profilePicUrl}` : '';
+
     return {
       accessToken,
       refreshToken,
@@ -64,7 +67,7 @@ export class AuthenticateUserService {
         sessionId,
         active: user.flgActive,
         confirmed: user.flgConfirmed,
-        profilePicUrl: user.profilePicUrl,
+        profilePicUrl,
       },
     };
   }

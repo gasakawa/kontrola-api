@@ -20,6 +20,7 @@ import {
   ResetPasswordController,
   SigninController,
   SignupController,
+  UpdateUserAvatarController,
   UpdateUserController,
 } from 'presentation/controllers/users';
 
@@ -27,6 +28,7 @@ import { container } from 'tsyringe';
 import { ActivateUserController } from 'presentation/controllers/users/activate-user.controller';
 import { ResendUserConfirmationCodeController } from 'presentation/controllers/users/resend-user-confirmation-code.controller';
 import { UpdateUserService } from 'data/services/users/update-user.service';
+import UpdateUserAvatarService from 'data/services/users/update-user-avatar.service';
 
 const handleUserPasswordService = container.resolve(HandleUserPasswordService);
 
@@ -85,4 +87,9 @@ export const makeGetUserController = (): Controller => {
 export const makeListUsersController = (): Controller => {
   const listUsersService = container.resolve(ListUsersService);
   return new ListUsersController(listUsersService);
+};
+
+export const makeUpdateUserAvatarController = (): Controller => {
+  const updateUserAvatarService = container.resolve(UpdateUserAvatarService);
+  return new UpdateUserAvatarController(updateUserAvatarService);
 };

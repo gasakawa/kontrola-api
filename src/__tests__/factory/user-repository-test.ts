@@ -3,6 +3,10 @@ import { IUserRepository } from 'data/protocols/db';
 import { UserModel, UserSigin } from 'domain/models';
 
 export class UserRepositoryStub implements IUserRepository {
+  async updateProfilePic(_userId: string, _picUrl: string): Promise<boolean> {
+    return new Promise(resolve => resolve(true));
+  }
+
   async list(_userListRequestDto: UserListRequestDto): Promise<UserListDTO | null> {
     return new Promise(resolve =>
       resolve({

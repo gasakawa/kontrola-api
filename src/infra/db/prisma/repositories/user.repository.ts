@@ -174,6 +174,7 @@ export class UserRepository implements IUserRepository {
         flg_active: true,
         flg_confirmed: true,
         gender: true,
+        sub: true,
       },
     });
 
@@ -186,6 +187,7 @@ export class UserRepository implements IUserRepository {
         flgActive: user.flg_active,
         flgConfirmed: user.flg_confirmed,
         gender: user.gender,
+        sub: user.sub || '',
       };
     }
 
@@ -205,5 +207,17 @@ export class UserRepository implements IUserRepository {
       console.error(e);
     }
     return null;
+  }
+
+  async updateProfilePic(userId: string, picUrl: string): Promise<boolean> {
+    await prisma.users.update({
+      data: {
+        profile_pic_url: picUrl,
+      },
+      where: {
+        id: userId,
+      },
+    });
+    return true;
   }
 }

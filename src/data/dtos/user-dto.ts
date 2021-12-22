@@ -12,6 +12,7 @@ export type UserDTO = {
   flgActive: boolean;
   flgConfirmed: boolean;
   gender: string;
+  sub?: string;
 };
 
 export type UserUpdateDTO = {

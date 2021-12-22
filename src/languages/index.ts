@@ -28,6 +28,7 @@ export const MESSAGES = {
       WrongTemporayPassword: 'Datos de acceso temporal incorrectos',
       EmailNotFound: 'E-mail no registrado',
       CompanyNotFound: 'Empresa no registrada',
+      ActionForbidden: 'Esta acción no es permitida',
     },
   },
   success: {

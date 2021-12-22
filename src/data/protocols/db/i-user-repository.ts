@@ -10,4 +10,5 @@ export interface IUserRepository {
   getProfile: (userId: string) => Promise<UserProfileDTO | null>;
   find: (key: string) => Promise<UserDTO | null>;
   list: (userListRequestDto: UserListRequestDto) => Promise<UserListDTO | null>;
+  updateProfilePic: (userId: string, picUrl: string) => Promise<boolean>;
 }

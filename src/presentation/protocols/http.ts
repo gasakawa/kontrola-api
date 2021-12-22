@@ -11,4 +11,5 @@ export type HttpRequest = {
   params?: any;
   originalUrl: string;
   query?: any;
+  file?: any;
 };

@@ -10,3 +10,4 @@ export * from './signout-user.service';
 export * from './update-user.service';
 export * from './get-user.service';
 export * from './list-users.service';
+export * from './update-user-avatar.service';

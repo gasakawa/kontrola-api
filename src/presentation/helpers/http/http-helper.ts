@@ -26,3 +26,8 @@ export const noContent = (): HttpResponse => ({
   statusCode: 204,
   body: null,
 });
+
+export const forbidden = (error: CustomError): HttpResponse => ({
+  statusCode: 403,
+  body: adaptError(error, 403, error.name, error.code),
+});
