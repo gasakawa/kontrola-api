@@ -29,6 +29,6 @@ export default class UpdateUserAvatarService {
 
     await this.userRepository.updateProfilePic(userId, fileName);
 
-    return file;
+    return `https://kontrola-system.s3.amazonaws.com/user-pics/${file}`;
   }
 }
