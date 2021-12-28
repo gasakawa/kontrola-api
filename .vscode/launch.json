@@ -6,17 +6,9 @@
   "configurations": [
     {
       "type": "node",
-      "request": "launch",
-      "name": "Debug Tests",
-      "preLaunchTask": "yarn test",
-      "args": ["-i"],
-      "internalConsoleOptions": "openOnSessionStart",
-      "outFiles": ["${workspaceRoot}/**/*.js"]
-    },
-    {
-      "type": "node",
       "request": "attach",
       "protocol": "inspector",
+      "port": 8000,
       "restart": true,
       "name": "Debug API",
       "skipFiles": ["<node_internals>/**"],

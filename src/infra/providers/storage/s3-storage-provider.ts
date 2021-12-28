@@ -11,6 +11,8 @@ export default class S3StorageProvider implements IStorageProvider {
   constructor() {
     this.client = new aws.S3({
       region: process.env.AWS_S3_REGION || 'us-east-1',
+      secretAccessKey: process.env.AWS_S3_ACCESS_SECRET || 'NOT_DEFINED',
+      accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID || 'NOT_DEFINED',
     });
   }
 
