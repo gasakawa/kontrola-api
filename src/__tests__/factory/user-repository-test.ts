@@ -22,8 +22,6 @@ export class UserRepositoryStub implements IUserRepository {
             email: 'user@email.com',
             status: 'status',
             fullName: 'Full Name',
-            givenName: 'Given',
-            familyName: 'Family Name',
             documentId: 'document_id',
           },
         ],

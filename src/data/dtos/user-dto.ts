@@ -60,8 +60,6 @@ export type UserListDTO = {
       email: string;
       status: string;
       fullName: string;
-      givenName: string;
-      familyName: string;
       documentId: string;
     },
   ];
@@ -72,7 +70,6 @@ export type UserListRequestDto = {
   roleId: number;
   page: number;
   records: number;
-  orderField: string;
   orderDirection: string;
   queryField: string;
 };

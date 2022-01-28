@@ -195,11 +195,11 @@ export class UserRepository implements IUserRepository {
   }
 
   async list(userListRequestDto: UserListRequestDto): Promise<UserListDTO | null> {
-    const { companyId, records, page, orderDirection, orderField, queryField, roleId } = userListRequestDto;
+    const { companyId, records, page, orderDirection, queryField, roleId } = userListRequestDto;
     const realPage = (page - 1) * records;
     try {
       const result =
-        (await prisma.$queryRaw`select * from list_users(${companyId}, ${roleId}, ${realPage}, ${records}, ${orderField}, ${orderDirection}, ${queryField})`) as any;
+        (await prisma.$queryRaw`select * from list_users(${companyId}, ${roleId}, ${realPage}, ${records}, ${orderDirection}, ${queryField})`) as any;
 
       const [{ list_users }] = result;
       return list_users as UserListDTO;

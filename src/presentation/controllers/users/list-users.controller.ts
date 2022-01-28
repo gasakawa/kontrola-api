@@ -7,7 +7,7 @@ export class ListUsersController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const { companyId } = httpRequest.params;
-    const { roleId, page, records, orderField, orderDirection, queryField } = httpRequest.query;
+    const { roleId, page, records, orderDirection, queryField } = httpRequest.query;
 
     const userListRequestDto = {
       companyId,
@@ -16,7 +16,6 @@ export class ListUsersController implements Controller {
       records: Number(records),
       orderDirection,
       queryField,
-      orderField,
     };
 
     try {

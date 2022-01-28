@@ -36,4 +36,5 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: ['<rootDir>/src/__tests__/factory/'],
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/factory/singleton.ts'],
+  preset: 'ts-jest',
 };
