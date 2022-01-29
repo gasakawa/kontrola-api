@@ -13,7 +13,7 @@ model access_control {
   headquarter_id Int?
   created_at     DateTime      @default(now()) @db.Timestamptz(6)
   company_id     String?       @db.Uuid
-  flg_overdue Boolean
+  flg_overdue    Boolean
   companies      companies?    @relation(fields: [company_id], references: [id], map: "access_control_company_fk")
   headquarters   headquarters? @relation(fields: [headquarter_id], references: [id], map: "access_control_heaquarter_fk")
   users          users?        @relation(fields: [user_id], references: [id], map: "access_control_user_fk")
@@ -142,16 +142,16 @@ model roles {
 }
 
 model sessions {
-  id         String    @id(map: "sessions_session_idx") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  user_id    String    @db.Uuid
-  flg_active Boolean   @default(true)
-  created_at DateTime  @default(now()) @db.Timestamp(6)
-  updated_at DateTime  @default(now()) @db.Timestamp(6)
-  token      String?
-  company_id String    @db.Uuid
+  id           String    @id(map: "sessions_session_idx") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String    @db.Uuid
+  flg_active   Boolean   @default(true)
+  created_at   DateTime  @default(now()) @db.Timestamp(6)
+  updated_at   DateTime  @default(now()) @db.Timestamp(6)
+  token        String?
+  company_id   String    @db.Uuid
   session_info Json?
-  users      users     @relation(fields: [user_id], references: [id], onDelete: SetNull, map: "sessions_user_fk")
-  companies  companies @relation(fields: [company_id], references: [id], onDelete: SetNull, map: "sessions_company_fk")
+  users        users     @relation(fields: [user_id], references: [id], onDelete: SetNull, map: "sessions_user_fk")
+  companies    companies @relation(fields: [company_id], references: [id], onDelete: SetNull, map: "sessions_company_fk")
 }
 
 model user_measure {
@@ -256,4 +256,15 @@ model permissions {
   flg_delete Boolean  @default(false)
   role       roles?   @relation(fields: [role_id], references: [id], map: "permissions_role_fk")
   routine    routine? @relation(fields: [routine_id], references: [id], map: "permissions_routine_fk")
+}
+
+model countries {
+  id          Int    @id(map: "countries_pk") @default(autoincrement())
+  es          String @db.VarChar(75)
+  pt          String @db.VarChar(75)
+  en          String @db.VarChar(75)
+  alpha_two   String @db.VarChar(2)
+  alpha_three String @db.VarChar(3)
+  dial_code   String @db.VarChar(10)
+  flag        String @db.VarChar(100)
 }
