@@ -7,3 +7,4 @@ export * from './i-company-plan-users.repository';
 export * from './i-module.repository';
 export * from './i-business-plan-settings.repository';
 export * from './i-company.repository';
+export * from './i-document-type.repository';

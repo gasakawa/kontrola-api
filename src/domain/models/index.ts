@@ -7,3 +7,4 @@ export * from './company-plan-users';
 export * from './module';
 export * from './business-plan';
 export * from './company';
+export * from './document-type';

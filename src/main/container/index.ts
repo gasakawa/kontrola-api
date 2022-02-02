@@ -8,6 +8,7 @@ import {
   ICompanyPlanPaymentControlRepository,
   ICompanyPlanUsersRepository,
   ICompanyRepository,
+  IDocumentTypeRepository,
   IModuleRepository,
   ISessionRepository,
   IUserMeasuersRepository,
@@ -21,6 +22,7 @@ import {
   CompanyPlanRepository,
   CompanyPlanUserRepository,
   CompanyRepository,
+  DocumentTypeRepository,
   ModuleRepository,
   UserMeasureRepository,
   UserRepository,
@@ -48,3 +50,4 @@ container.registerSingleton<IBusinessPlanSettingsRepository>(
 container.registerSingleton<IAccessControlRepository>('AccessControlRepository', AccessControlRepository);
 container.registerSingleton<ICompanyRepository>('CompanyRepository', CompanyRepository);
 container.registerSingleton<IStorageProvider>('S3StorageProvider', S3StorageProvider);
+container.registerSingleton<IDocumentTypeRepository>('DocumentTypeRepository', DocumentTypeRepository);

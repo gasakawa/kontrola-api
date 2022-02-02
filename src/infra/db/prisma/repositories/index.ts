@@ -8,3 +8,4 @@ export * from './company-plan-user.repository';
 export * from './module.repository';
 export * from './business-plan-settings.repository';
 export * from './company.repository';
+export * from './document-types.repository';
