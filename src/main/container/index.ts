@@ -23,6 +23,7 @@ import {
   CompanyPlanUserRepository,
   CompanyRepository,
   DocumentTypeRepository,
+  HeadquarterRepository,
   ModuleRepository,
   UserMeasureRepository,
   UserRepository,
@@ -30,6 +31,7 @@ import {
 } from 'infra/db/prisma/repositories';
 import IStorageProvider from 'data/protocols/providers/i-storage-provider';
 import S3StorageProvider from 'infra/providers/storage/s3-storage-provider';
+import { IHeadquarterRepository } from 'data/protocols/db/i-headquarter.repository';
 
 container.registerSingleton<Authenticator>('CognitoAdapter', CognitoAdapter);
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
@@ -51,3 +53,4 @@ container.registerSingleton<IAccessControlRepository>('AccessControlRepository',
 container.registerSingleton<ICompanyRepository>('CompanyRepository', CompanyRepository);
 container.registerSingleton<IStorageProvider>('S3StorageProvider', S3StorageProvider);
 container.registerSingleton<IDocumentTypeRepository>('DocumentTypeRepository', DocumentTypeRepository);
+container.registerSingleton<IHeadquarterRepository>('HeadquarterRepository', HeadquarterRepository);

@@ -12,6 +12,10 @@ export class ListHeadquarterService {
   public async list(companyId: string): Promise<HeadquarterDTO[] | null> {
     const headquarters = this.headquarterRepository.list(companyId);
 
+    if (!headquarters) {
+      return [];
+    }
+
     return headquarters;
   }
 }
