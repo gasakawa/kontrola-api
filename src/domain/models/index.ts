@@ -8,3 +8,4 @@ export * from './module';
 export * from './business-plan';
 export * from './company';
 export * from './document-type';
+export * from './headquarter';
