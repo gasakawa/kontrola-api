@@ -4,7 +4,7 @@ import {
   ChangeInitialPasswordService,
   ConfirmUserService,
   CreateUserService,
-  GetUserService,
+  GetUserProfileService,
   HandleUserPasswordService,
   ListUsersService,
   ResendUserConfirmationCodeService,
@@ -80,7 +80,7 @@ export const makeUpdateUserController = (): Controller => {
 };
 
 export const makeGetUserController = (): Controller => {
-  const getUserService = container.resolve(GetUserService);
+  const getUserService = container.resolve(GetUserProfileService);
   return new GetUserController(getUserService);
 };
 

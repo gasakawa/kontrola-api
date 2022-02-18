@@ -4,7 +4,7 @@ import { CustomError } from 'domain/errors';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
-export class GetUserService {
+export class GetUserProfileService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository,

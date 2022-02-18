@@ -8,6 +8,6 @@ export * from './resend-user-confirmation-code.service';
 export * from './change-initial-password.service';
 export * from './signout-user.service';
 export * from './update-user.service';
-export * from './get-user.service';
+export * from './get-user-profile.service';
 export * from './list-users.service';
 export * from './update-user-avatar.service';

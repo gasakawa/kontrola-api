@@ -28,6 +28,6 @@ export default (router: Router): void => {
   router.post('/user/resend_code', adaptRoute(makeResendUserConfirmationCodeController()));
   router.post('/user/change_initial_password', adaptRoute(makeChangeInitialPasswordController()));
 
-  router.get('/user/:id', authorize, adaptRoute(makeGetUserController()));
+  router.get('/user/profile/:id', authorize, adaptRoute(makeGetUserController()));
   router.get('/user/list/:companyId', authorize, adaptRoute(makeListUsersController()));
 };

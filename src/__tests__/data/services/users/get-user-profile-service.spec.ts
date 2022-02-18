@@ -1,9 +1,9 @@
-import { GetUserService } from 'data/services/users';
+import { GetUserProfileService } from 'data/services/users';
 import { UserRepositoryStub } from '__tests__/factory';
 
 const makeSut = () => {
   const userRepository = new UserRepositoryStub();
-  const sut = new GetUserService(userRepository);
+  const sut = new GetUserProfileService(userRepository);
 
   return {
     userRepository,
@@ -11,7 +11,7 @@ const makeSut = () => {
   };
 };
 
-describe('Get User Service', () => {
+describe('Get User Profile Service', () => {
   it('should return a user profile', async () => {
     const { sut } = makeSut();
     const user = await sut.get('user_id');
