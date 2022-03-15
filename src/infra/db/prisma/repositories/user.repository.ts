@@ -1,5 +1,13 @@
 import validator from 'validator';
-import { UserAuthDTO, UserDTO, UserListDTO, UserListRequestDto, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
+import {
+  UserAuthDTO,
+  UserCompleteDTO,
+  UserDTO,
+  UserListDTO,
+  UserListRequestDto,
+  UserProfileDTO,
+  UserUpdateDTO,
+} from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { CustomError } from 'domain/errors';
 import { UserModel, UserSigin } from 'domain/models';
@@ -219,5 +227,44 @@ export class UserRepository implements IUserRepository {
       },
     });
     return true;
+  }
+
+  async get(id: string): Promise<UserCompleteDTO | null> {
+    const user = await prisma.users.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        given_name: true,
+        family_name: true,
+        address: true,
+        phone_number: true,
+        heaquarter_id: true,
+        document_id: true,
+        document_type: true,
+        gender: true,
+        email: true,
+        birthdate: true,
+        role_id: true,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      givenName: user.given_name,
+      familyName: user.family_name,
+      address: user.address,
+      phoneNumber: user.phone_number,
+      headquarterId: user.heaquarter_id ? user.heaquarter_id : 0,
+      documentId: user.document_id,
+      documentType: user.document_type ? user.document_type : 0,
+      gender: user.gender,
+      email: user.email,
+      birthdate: user.birthdate,
+      role: user.role_id ? user.role_id : 0,
+    };
   }
 }

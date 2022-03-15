@@ -73,3 +73,17 @@ export type UserListRequestDto = {
   orderDirection: string;
   queryField: string;
 };
+
+export type UserCompleteDTO = {
+  givenName: string;
+  familyName: string;
+  documentType: number;
+  documentId: string;
+  address: string;
+  phoneNumber: string;
+  email: string;
+  birthdate: Date;
+  gender: string;
+  headquarterId: number;
+  role: number;
+};

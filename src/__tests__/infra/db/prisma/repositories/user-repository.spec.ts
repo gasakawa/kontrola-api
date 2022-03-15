@@ -1,7 +1,12 @@
 import { CustomError } from 'domain/errors';
 import { UserRepository } from 'infra/db/prisma/repositories';
 import { mockReset } from 'jest-mock-extended';
-import { buildFakeDbUser, buildFakeUpdateUser, buildFakeUser } from '__tests__/factory/mocks/users';
+import {
+  buildFakeCompleteUser,
+  buildFakeDbUser,
+  buildFakeUpdateUser,
+  buildFakeUser,
+} from '__tests__/factory/mocks/users';
 import { prismaMock } from '__tests__/factory/singleton';
 
 const makeSut = () => {
@@ -9,11 +14,13 @@ const makeSut = () => {
   const fakeUser = buildFakeUser();
   const fakeDbUser = buildFakeDbUser();
   const fakeUpdateUser = buildFakeUpdateUser();
+  const fakeCompleteUser = buildFakeCompleteUser();
   return {
     sut,
     fakeUser,
     fakeDbUser,
     fakeUpdateUser,
+    fakeCompleteUser,
   };
 };
 
@@ -110,6 +117,22 @@ describe('User Repository', () => {
     const { sut } = makeSut();
     prismaMock.users.findUnique.mockResolvedValueOnce(null);
     const user = await sut.find('user_id');
+
+    expect(user).toBe(null);
+  });
+
+  it('should be able to return an user by his id', async () => {
+    const { sut, fakeDbUser } = makeSut();
+    prismaMock.users.findUnique.mockResolvedValueOnce(fakeDbUser);
+    const user = await sut.get('user_id');
+    expect(user).toBeTruthy();
+    expect(user?.documentType).toBe(1);
+  });
+
+  it('should be able to return null if an user not exists', async () => {
+    const { sut } = makeSut();
+    prismaMock.users.findUnique.mockResolvedValueOnce(null);
+    const user = await sut.get('user_id');
 
     expect(user).toBe(null);
   });

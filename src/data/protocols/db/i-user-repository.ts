@@ -1,4 +1,12 @@
-import { UserAuthDTO, UserDTO, UserListDTO, UserListRequestDto, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
+import {
+  UserAuthDTO,
+  UserCompleteDTO,
+  UserDTO,
+  UserListDTO,
+  UserListRequestDto,
+  UserProfileDTO,
+  UserUpdateDTO,
+} from 'data/dtos';
 import { UserModel, UserSigin } from 'domain/models';
 
 export interface IUserRepository {
@@ -11,4 +19,5 @@ export interface IUserRepository {
   find: (key: string) => Promise<UserDTO | null>;
   list: (userListRequestDto: UserListRequestDto) => Promise<UserListDTO | null>;
   updateProfilePic: (userId: string, picUrl: string) => Promise<boolean>;
+  get: (id: string) => Promise<UserCompleteDTO | null>;
 }

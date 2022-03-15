@@ -1,8 +1,34 @@
-import { UserAuthDTO, UserDTO, UserListDTO, UserListRequestDto, UserProfileDTO, UserUpdateDTO } from 'data/dtos';
+import {
+  UserAuthDTO,
+  UserCompleteDTO,
+  UserDTO,
+  UserListDTO,
+  UserListRequestDto,
+  UserProfileDTO,
+  UserUpdateDTO,
+} from 'data/dtos';
 import { IUserRepository } from 'data/protocols/db';
 import { UserModel, UserSigin } from 'domain/models';
 
 export class UserRepositoryStub implements IUserRepository {
+  async get(_id: string): Promise<UserCompleteDTO | null> {
+    return new Promise(resolve =>
+      resolve({
+        address: 'address',
+        phoneNumber: 'phone',
+        headquarterId: 1,
+        givenName: 'Given Name',
+        familyName: 'Family Name',
+        gender: 'gender',
+        email: 'user@email.com',
+        documentType: 1,
+        documentId: 'document_id',
+        birthdate: new Date(),
+        role: 1,
+      }),
+    );
+  }
+
   async updateProfilePic(_userId: string, _picUrl: string): Promise<boolean> {
     return new Promise(resolve => resolve(true));
   }
