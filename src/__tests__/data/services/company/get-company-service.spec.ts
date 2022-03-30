@@ -1,4 +1,5 @@
 import { GetCompanyService } from 'data/services/company';
+import { CustomError } from 'domain/errors';
 import { CompanyRepositoryStub } from '__tests__/factory/company-repository-stub';
 
 const makeSut = () => {
@@ -28,5 +29,15 @@ describe('Get Company Service', () => {
     await sut.get('company_id');
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith('company_id');
+  });
+
+  it('should throws if the company is not found', async () => {
+    const { sut, companyRepositoryStub } = makeSut();
+    jest.spyOn(companyRepositoryStub, 'get').mockResolvedValueOnce(null);
+    try {
+      await sut.get('company_id');
+    } catch (err) {
+      expect(err).toBeInstanceOf(CustomError);
+    }
   });
 });

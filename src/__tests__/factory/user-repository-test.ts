@@ -93,7 +93,7 @@ export class UserRepositoryStub implements IUserRepository {
     return new Promise(resolve => resolve(true));
   }
 
-  async getProfile(_id: string): Promise<UserProfileDTO> {
+  async getProfile(_id: string): Promise<UserProfileDTO | null> {
     return new Promise(resolve =>
       resolve({
         user: {

@@ -1,10 +1,10 @@
-import { GetUserProfileService } from 'data/services/users';
+import { GetUserCompleteService } from 'data/services/users';
 import { CustomError } from 'domain/errors';
 import { UserRepositoryStub } from '__tests__/factory';
 
 const makeSut = () => {
   const userRepository = new UserRepositoryStub();
-  const sut = new GetUserProfileService(userRepository);
+  const sut = new GetUserCompleteService(userRepository);
 
   return {
     userRepository,
@@ -22,8 +22,7 @@ describe('Get User Profile Service', () => {
 
   it('should throws if users does not exits', async () => {
     const { sut, userRepository } = makeSut();
-    jest.spyOn(userRepository, 'getProfile').mockReturnValueOnce(new Promise(resolve => resolve(null)));
-
+    jest.spyOn(userRepository, 'get').mockReturnValueOnce(new Promise(resolve => resolve(null)));
     try {
       await sut.get('user_id');
     } catch (e) {
