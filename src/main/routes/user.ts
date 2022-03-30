@@ -6,6 +6,7 @@ import {
   makeChangePasswordController,
   makeConfirmSignupController,
   makeForgotPasswordController,
+  makeGetUserCompleteController,
   makeGetUserController,
   makeListUsersController,
   makeResendUserConfirmationCodeController,
@@ -29,4 +30,5 @@ export default (router: Router): void => {
   router.post('/user/change_initial_password', adaptRoute(makeChangeInitialPasswordController()));
   router.get('/user/profile/:id', authorize, adaptRoute(makeGetUserController()));
   router.get('/user/list/:companyId', authorize, adaptRoute(makeListUsersController()));
+  router.get('/user/:id', authorize, adaptRoute(makeGetUserCompleteController()));
 };

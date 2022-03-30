@@ -4,6 +4,7 @@ import {
   ChangeInitialPasswordService,
   ConfirmUserService,
   CreateUserService,
+  GetUserCompleteService,
   GetUserProfileService,
   HandleUserPasswordService,
   ListUsersService,
@@ -29,6 +30,7 @@ import { ActivateUserController } from 'presentation/controllers/users/activate-
 import { ResendUserConfirmationCodeController } from 'presentation/controllers/users/resend-user-confirmation-code.controller';
 import { UpdateUserService } from 'data/services/users/update-user.service';
 import UpdateUserAvatarService from 'data/services/users/update-user-avatar.service';
+import { GetUserCompleteController } from 'presentation/controllers/users/get-user-complete.controller';
 
 const handleUserPasswordService = container.resolve(HandleUserPasswordService);
 
@@ -92,4 +94,9 @@ export const makeListUsersController = (): Controller => {
 export const makeUpdateUserAvatarController = (): Controller => {
   const updateUserAvatarService = container.resolve(UpdateUserAvatarService);
   return new UpdateUserAvatarController(updateUserAvatarService);
+};
+
+export const makeGetUserCompleteController = (): Controller => {
+  const getuserCompleteService = container.resolve(GetUserCompleteService);
+  return new GetUserCompleteController(getuserCompleteService);
 };
